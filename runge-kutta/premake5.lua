@@ -20,3 +20,8 @@ project "runge-kutta"
       defines { "NDEBUG" }
       runtime "Release"
       optimize "On"
+
+   filter "configurations:Test"
+      defines { "DEBUG" }
+      runtime "Debug"
+      symbols "On"
