@@ -19,6 +19,11 @@ namespace rk
         integrator(const tableau &tb);
         integrator(tableau &&tb);
 
+        vector1d forward(double &t,
+                         double dt,
+                         const vector1d &vars,
+                         vector1d (*ode)(double, const vector1d &)) const;
+
     private:
         tableau m_tableau;
 
@@ -40,11 +45,6 @@ namespace rk
                                    const vector2d &k_vectors,
                                    const vector1d &vars,
                                    const vector1d &coefs) const;
-
-        vector1d forward(double &t,
-                         double dt,
-                         const vector1d &vars,
-                         vector1d (*ode)(double, const vector1d &)) const;
     };
 
     template <typename T>
