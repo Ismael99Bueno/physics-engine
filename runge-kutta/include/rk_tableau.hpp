@@ -1,5 +1,5 @@
-#ifndef BUTCHER_TABLEAU_HPP
-#define BUTCHER_TABLEAU_HPP
+#ifndef RK_TABLEAU_HPP
+#define RK_TABLEAU_HPP
 
 #include <vector>
 #include <cstdint>

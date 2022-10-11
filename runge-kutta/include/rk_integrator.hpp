@@ -1,5 +1,5 @@
-#ifndef RUNGEKUTTA_HPP
-#define RUNGEKUTTA_HPP
+#ifndef RK_INTEGRATOR_HPP
+#define RK_INTEGRATOR_HPP
 
 #include "rk_tableau.hpp"
 #include <cstdint>
