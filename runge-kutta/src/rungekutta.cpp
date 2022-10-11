@@ -1,4 +1,6 @@
 #include "rungekutta.hpp"
+#include "debug.h"
+#include <cmath>
 
 namespace rk
 {
@@ -6,7 +8,7 @@ namespace rk
 
     integrator::integrator(tableau &&tb) : m_tableau(std::move(tb)) {}
 
-    integrator::vector2d integrator::reserve(integrator::int32 n, integrator::int32 m)
+    integrator::vector2d integrator::reserve(const int32 n, const int32 m)
     {
         vector2d v;
         v.reserve(n);
@@ -37,5 +39,23 @@ namespace rk
             k_vectors[i] = ode(t, vars_aux);
         }
         return k_vectors;
+    }
+
+    integrator::vector1d integrator::generate_solution(double dt,
+                                                       const vector2d &k_vectors,
+                                                       const vector1d &vars,
+                                                       const vector1d &coefs) const
+    {
+        vector1d sol;
+        sol.reserve(vars.size());
+        for (std::size_t j = 0; j < vars.size(); j++)
+        {
+            double sum = 0.0;
+            for (int8 i = 0; i < m_tableau.stage(); i++)
+                sum += coefs[i] * k_vectors[i][j];
+            DBG_LOG_IF(isnan(sum), "NaN encountered when computing runge-kutta solution")
+            sol[j] = vars[j] + sum * dt;
+        }
+        return sol;
     }
 }
