@@ -10,7 +10,7 @@ project "engine"
    objdir("../build/" .. outputdir .. "/%{prj.name}")
 
    files {"src/**.cpp", "include/**.hpp"}
-   includedirs {"include", "../runge-kutta/include", "../vector/include"}
+   includedirs "../**/include"
 
    filter "configurations:Debug"
       defines { "DEBUG" }
