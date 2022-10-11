@@ -1,7 +1,7 @@
 #ifndef RUNGEKUTTA_HPP
 #define RUNGEKUTTA_HPP
 
-#include "butcher_tableau.hpp"
+#include "rk_tableau.hpp"
 #include <cstdint>
 
 namespace rk

@@ -1,4 +1,4 @@
-#include "rungekutta.hpp"
+#include "rk_integrator.hpp"
 #include "debug.h"
 #include <cmath>
 
