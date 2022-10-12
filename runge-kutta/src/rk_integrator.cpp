@@ -23,8 +23,7 @@ namespace rk
                                                vector1d (*ode)(double, const vector1d &)) const
     {
         vector2d kvec = reserve(m_tableau.stage(), vars.size());
-        vector1d vars_aux;
-        vars_aux.reserve(vars.size());
+        vector1d vars_aux(vars.size());
 
         kvec.emplace_back(ode(t, vars));
         for (int8 i = 1; i < m_tableau.stage(); i++)
@@ -36,7 +35,7 @@ namespace rk
                     k_sum += m_tableau.beta()[i - 1][k] * kvec[k][j];
                 vars_aux[j] = vars[j] + k_sum * dt;
             }
-            kvec[i] = ode(t, vars_aux);
+            kvec.emplace_back(ode(t, vars_aux));
         }
         return kvec;
     }
@@ -54,7 +53,7 @@ namespace rk
             for (int8 i = 0; i < m_tableau.stage(); i++)
                 sum += coefs[i] * kvec[i][j];
             DBG_LOG_IF(isnan(sum), "NaN encountered when computing runge-kutta solution")
-            sol[j] = vars[j] + sum * dt;
+            sol.emplace_back(vars[j] + sum * dt);
         }
         return sol;
     }
