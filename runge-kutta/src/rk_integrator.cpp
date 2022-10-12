@@ -70,6 +70,16 @@ namespace rk
         return sol;
     }
 
+    integrator::vector1d integrator::integrate(double t,
+                                               double dt,
+                                               const vector1d &vars,
+                                               const vector1d &coefs,
+                                               vector1d (*ode)(double, const vector1d &)) const
+    {
+        const vector2d kvec = k_vectors(t, dt, vars, ode);
+        return generate_solution(dt, kvec, vars, coefs);
+    }
+
     integrator::vector1d integrator::raw_forward(double &t,
                                                  const double dt,
                                                  const vector1d &vars,
