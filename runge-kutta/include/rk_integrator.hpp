@@ -51,6 +51,7 @@ namespace rk
                                    const vector1d &vars,
                                    const vector1d &coefs) const;
 
+        static double embedded_error(const vector1d &sol1, const vector1d &sol2);
         double reiterative_error(const vector1d &sol1, const vector1d &sol2) const;
     };
 
