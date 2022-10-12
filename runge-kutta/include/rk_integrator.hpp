@@ -11,23 +11,28 @@ namespace rk
     private:
         using vector1d = std::vector<double>;
         using vector2d = std::vector<std::vector<double>>;
-        using int8 = std::uint8_t;
-        using int32 = std::uint32_t;
+        using uint8 = std::uint8_t;
+        using uint32 = std::uint32_t;
 
     public:
         integrator() = delete;
         integrator(const tableau &tb);
         integrator(tableau &&tb);
 
-        vector1d forward(double &t,
-                         double dt,
-                         const vector1d &vars,
-                         vector1d (*ode)(double, const vector1d &)) const;
+        vector1d raw_forward(double &t,
+                             double dt,
+                             const vector1d &vars,
+                             vector1d (*ode)(double, const vector1d &)) const;
+
+        vector1d reiterative_forward(double &t,
+                                     double &dt,
+                                     const vector1d &vars,
+                                     vector1d (*ode)(double, const vector1d &)) const;
 
     private:
-        tableau m_tableau;
+        const tableau m_tableau;
 
-        static vector2d reserve(int32 n, int32 m);
+        static vector2d reserve(uint32 n, uint32 m);
 
         vector2d k_vectors(double t,
                            double dt,
@@ -45,6 +50,8 @@ namespace rk
                                    const vector2d &k_vectors,
                                    const vector1d &vars,
                                    const vector1d &coefs) const;
+
+        double reiterative_error(const vector1d &sol1, const vector1d &sol2) const;
     };
 
     template <typename T>
@@ -59,12 +66,12 @@ namespace rk
         vars_aux.reserve(vars.size());
 
         k_vectors.emplace_back(ode(t, vars, params));
-        for (int8 i = 1; i < m_tableau.stage(); i++)
+        for (uint8 i = 1; i < m_tableau.stage(); i++)
         {
             for (std::size_t j = 0; j < vars.size(); j++)
             {
                 double k_sum = 0.0;
-                for (int8 k = 0; k < i; k++)
+                for (uint8 k = 0; k < i; k++)
                     k_sum += m_tableau.beta()[i - 1][k] * k_vectors[k][j];
                 vars_aux[j] = vars[j] + k_sum * dt;
             }
