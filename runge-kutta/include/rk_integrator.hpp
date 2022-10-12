@@ -16,8 +16,8 @@ namespace rk
 
     public:
         integrator() = delete;
-        integrator(const tableau &tb);
-        integrator(tableau &&tb);
+        integrator(const tableau &tb, double tolerance = 1e-6, double min_dt = 1.e-6, double max_dt = 1.0);
+        integrator(tableau &&tb, double tolerance = 1e-6, double min_dt = 1.e-6, double max_dt = 1.0);
 
         vector1d raw_forward(double &t,
                              double dt,
@@ -31,6 +31,7 @@ namespace rk
 
     private:
         const tableau m_tableau;
+        double m_tolerance, m_min_dt, m_max_dt;
 
         static vector2d reserve(uint32 n, uint32 m);
 
@@ -50,6 +51,12 @@ namespace rk
                                    const vector2d &k_vectors,
                                    const vector1d &vars,
                                    const vector1d &coefs) const;
+
+        vector1d integrate(double t,
+                           double dt,
+                           const vector1d &vars,
+                           const vector1d &coefs,
+                           vector1d (*ode)(double, const vector1d &)) const;
 
         static double embedded_error(const vector1d &sol1, const vector1d &sol2);
         double reiterative_error(const vector1d &sol1, const vector1d &sol2) const;
