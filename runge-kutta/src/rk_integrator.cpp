@@ -110,8 +110,8 @@ namespace rk
         for (;;)
         {
             const vector1d aux_sol = integrate(t, dt, vars, m_tableau.coefs(), ode);
-            sol = integrate(t, dt / 2.0, vars, m_tableau.coefs(), ode);
-            sol = integrate(t, dt / 2.0, sol, m_tableau.coefs(), ode);
+            integrate(t, dt / 2.0, vars, m_tableau.coefs(), ode).swap(sol);
+            integrate(t, dt / 2.0, sol, m_tableau.coefs(), ode).swap(sol);
             m_error = reiterative_error(sol, aux_sol);
             if (dt_off_bounds(dt) || m_error <= m_tolerance)
                 break;
@@ -133,7 +133,7 @@ namespace rk
         for (;;)
         {
             const vector2d kvec = k_vectors(t, dt, vars, ode);
-            sol = generate_solution(dt, kvec, vars, m_tableau.coefs1());
+            generate_solution(dt, kvec, vars, m_tableau.coefs1()).swap(sol);
             const vector1d aux_sol = generate_solution(dt, kvec, vars, m_tableau.coefs2());
             m_error = embedded_error(sol, aux_sol);
             if (dt_off_bounds(dt) || m_error <= m_tolerance)
