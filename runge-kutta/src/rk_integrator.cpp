@@ -143,6 +143,7 @@ namespace rk
         m_error = std::max(m_error, m_tolerance / TOL_PART);
         t += dt;
         dt = std::clamp(SAFETY_FACTOR * dt * std::pow(m_tolerance / m_error, 1.0 / (m_tableau.order() - 1)), m_min_dt, m_max_dt);
+        return sol;
     }
 
     static std::uint32_t ipow(std::uint32_t base, std::uint32_t exponent)
