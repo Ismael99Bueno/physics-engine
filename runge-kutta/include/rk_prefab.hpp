@@ -5,7 +5,7 @@
 
 namespace rk
 {
-    extern const tableau rk4;
+    extern const tableau rk1, rk2, rk4, rk38, rkf12, rkf45, rkfck45, rkf78;
 }
 
 #endif
