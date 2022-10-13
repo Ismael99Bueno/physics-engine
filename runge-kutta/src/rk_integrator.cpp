@@ -123,6 +123,28 @@ namespace rk
         return sol;
     }
 
+    integrator::vector1d integrator::embedded_forward(double &t,
+                                                      double &dt,
+                                                      const vector1d &vars,
+                                                      vector1d (*ode)(double, const vector1d &)) const
+    {
+        DBG_EXIT_IF(!m_tableau.embedded(), "Cannot perform embedded adaptive stepsize without an embedded solution.\n")
+        vector1d sol;
+        for (;;)
+        {
+            const vector2d kvec = k_vectors(t, dt, vars, ode);
+            sol = generate_solution(dt, kvec, vars, m_tableau.coefs1());
+            const vector1d aux_sol = generate_solution(dt, kvec, vars, m_tableau.coefs2());
+            m_error = embedded_error(sol, aux_sol);
+            if (dt_off_bounds(dt) || m_error <= m_tolerance)
+                break;
+            dt *= SAFETY_FACTOR * pow(m_tolerance / m_error, 1.0 / m_tableau.order());
+        }
+        m_error = std::max(m_error, m_tolerance / TOL_PART);
+        t += dt;
+        dt = std::clamp(SAFETY_FACTOR * dt * std::pow(m_tolerance / m_error, 1.0 / (m_tableau.order() - 1)), m_min_dt, m_max_dt);
+    }
+
     static std::uint32_t ipow(std::uint32_t base, std::uint32_t exponent)
     {
         int result = 1;
