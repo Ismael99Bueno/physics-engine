@@ -16,8 +16,8 @@ namespace rk
 
     public:
         integrator() = delete;
-        integrator(const tableau &tb, double tolerance = 1e-6, double min_dt = 1.e-6, double max_dt = 1.0);
-        integrator(tableau &&tb, double tolerance = 1e-6, double min_dt = 1.e-6, double max_dt = 1.0);
+        integrator(const tableau &tb, double tolerance = 1e-6, double min_dt = 1e-6, double max_dt = 1.0);
+        integrator(tableau &&tb, double tolerance = 1e-6, double min_dt = 1e-6, double max_dt = 1.0);
 
         vector1d raw_forward(double &t,
                              double dt,
@@ -29,9 +29,26 @@ namespace rk
                                      const vector1d &vars,
                                      vector1d (*ode)(double, const vector1d &)) const;
 
+        vector1d embedded_forward(double &t,
+                                  double &dt,
+                                  const vector1d &vars,
+                                  vector1d (*ode)(double, const vector1d &)) const;
+
+        double tolerance() const;
+        double min_dt() const;
+        double max_dt() const;
+        double error() const;
+        bool valid() const;
+
+        void tolerance(double val);
+        void min_dt(double val);
+        void max_dt(double val);
+
     private:
         const tableau m_tableau;
         double m_tolerance, m_min_dt, m_max_dt;
+        mutable double m_error;
+        mutable bool m_valid;
 
         static vector2d reserve(uint32 n, uint32 m);
 
@@ -58,6 +75,7 @@ namespace rk
                            const vector1d &coefs,
                            vector1d (*ode)(double, const vector1d &)) const;
 
+        bool dt_off_bounds(double dt) const;
         static double embedded_error(const vector1d &sol1, const vector1d &sol2);
         double reiterative_error(const vector1d &sol1, const vector1d &sol2) const;
     };
