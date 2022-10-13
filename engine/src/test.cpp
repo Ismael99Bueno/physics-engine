@@ -10,13 +10,19 @@ std::vector<double> ode(double t, const std::vector<double> &vars)
 
 int main()
 {
-    rk::integrator integ(rk::rk4);
-    std::vector<double> vars = {1.0, 0.0};
-    double t = 0.0;
+    rk::integrator integ(rk::rkf78);
 
-    // while (t < 10.0)
-    // {
-    //     vars = integ.raw_forward(t, 0.01, vars, ode);
-    //     std::cout << "t: " << t << " x: " << vars[0] << std::endl;
-    // }
+    std::vector<double> vars = {1.0, 0.0};
+    double t = 0.0, dt = 0.01;
+
+    std::size_t iters = 0;
+    while (t + dt < 10.0)
+    {
+        vars = integ.raw_forward(t, dt, vars, ode);
+        std::cout << "t: " << t << " x: " << vars[0] << " error: " << integ.error() << "\n";
+        iters++;
+    }
+    // vars = integ.raw_forward(t, 10.0 - t, vars, ode);
+    // std::cout << "t: " << t << " x: " << vars[0] << " error: " << integ.error() << "\n";
+    std::cout << iters << "\n";
 }
