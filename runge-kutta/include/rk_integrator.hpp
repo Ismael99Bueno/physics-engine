@@ -71,6 +71,8 @@ namespace rk
                            const vector1d &coefs,
                            vector1d (*ode)(double, const vector1d &)) const;
 
+        bool dt_too_small(double dt) const;
+        bool dt_too_big(double dt) const;
         bool dt_off_bounds(double dt) const;
         static double embedded_error(const vector1d &sol1, const vector1d &sol2);
         double reiterative_error(const vector1d &sol1, const vector1d &sol2) const;

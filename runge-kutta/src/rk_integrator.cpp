@@ -69,7 +69,7 @@ namespace rk
             for (uint8 i = 0; i < m_tableau.stage(); i++)
                 sum += coefs[i] * m_kvec[i][j];
             m_valid &= !isnan(sum);
-            DBG_LOG_IF(!m_valid, "NaN encountered when computing runge-kutta solution")
+            DBG_LOG_IF(!m_valid, "NaN encountered when computing runge-kutta solution.\n")
             sol.emplace_back(m_state[j] + sum * dt);
         }
         return sol;
@@ -88,6 +88,7 @@ namespace rk
                                  const double dt,
                                  vector1d (*ode)(double, const vector1d &))
     {
+        DBG_EXIT_IF(dt_off_bounds(dt), "Timestep is not between established limits. Change the timestep or adjust the limits to include the current value.\n")
         m_valid = true;
         update_kvec(t, dt, ode);
         generate_solution(dt, m_tableau.coefs()).swap(m_state);
@@ -98,19 +99,22 @@ namespace rk
                                          double &dt,
                                          vector1d (*ode)(double, const vector1d &))
     {
-        DBG_LOG_IF(m_tableau.embedded(), "Table has an embedded solution. Use an embedded adaptive method for better efficiency")
+        DBG_EXIT_IF(dt_off_bounds(dt), "Timestep is not between established limits. Change the timestep or adjust the limits to include the current value.\n")
+        DBG_LOG_IF(m_tableau.embedded(), "Table has an embedded solution. Use an embedded adaptive method for better efficiency.\n")
+        m_valid = true;
         for (;;)
         {
             const vector1d aux_sol = integrate(t, dt, m_tableau.coefs(), ode);
             integrate(t, dt / 2.0, m_tableau.coefs(), ode).swap(m_state);
             integrate(t, dt / 2.0, m_tableau.coefs(), ode).swap(m_state);
             m_error = reiterative_error(m_state, aux_sol);
-            if (dt_off_bounds(dt) || m_error <= m_tolerance)
+            if (m_error <= m_tolerance || dt_too_small(dt))
                 break;
             dt /= 2.0;
         }
         m_error = std::max(m_error, m_tolerance / TOL_PART);
         t += dt;
+
         dt = std::clamp(SAFETY_FACTOR * dt * std::pow(m_tolerance / m_error, 1.0 / m_tableau.order()), m_min_dt, m_max_dt);
     }
 
@@ -119,13 +123,16 @@ namespace rk
                                       vector1d (*ode)(double, const vector1d &))
     {
         DBG_EXIT_IF(!m_tableau.embedded(), "Cannot perform embedded adaptive stepsize without an embedded solution.\n")
+        DBG_EXIT_IF(dt_off_bounds(dt), "Timestep is not between established limits. Change the timestep or adjust the limits to include the current value.\n")
+        m_valid = true;
         for (;;)
         {
             update_kvec(t, dt, ode);
-            generate_solution(dt, m_tableau.coefs1()).swap(m_state);
             const vector1d aux_sol = generate_solution(dt, m_tableau.coefs2());
+            generate_solution(dt, m_tableau.coefs1()).swap(m_state);
             m_error = embedded_error(m_state, aux_sol);
-            if (dt_off_bounds(dt) || m_error <= m_tolerance)
+
+            if (m_error <= m_tolerance || dt_too_small(dt))
                 break;
             dt *= SAFETY_FACTOR * pow(m_tolerance / m_error, 1.0 / m_tableau.order());
         }
@@ -150,7 +157,9 @@ namespace rk
         return result;
     }
 
-    bool integrator::dt_off_bounds(const double dt) const { return dt <= m_min_dt || dt >= m_max_dt; }
+    bool integrator::dt_too_small(const double dt) const { return dt < m_min_dt; }
+    bool integrator::dt_too_big(const double dt) const { return dt > m_max_dt; }
+    bool integrator::dt_off_bounds(const double dt) const { return dt_too_small(dt) || dt_too_big(dt); }
 
     double integrator::embedded_error(const vector1d &sol1, const vector1d &sol2)
     {
