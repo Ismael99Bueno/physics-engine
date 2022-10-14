@@ -1,10 +1,12 @@
 #ifndef VEC3_HPP
 #define VEC3_HPP
 
+#include "vec2.hpp"
 #include <iostream>
 
 namespace vec
 {
+    class vec2;
     class vec3
     {
     public:
@@ -12,6 +14,7 @@ namespace vec
 
         vec3() = default;
         vec3(double x, double y, double z);
+        vec3(const vec2 &v2);
 
         double dot(const vec3 &v) const;
 
@@ -41,6 +44,56 @@ namespace vec
 
         vec3 cross(const vec3 &v) const;
     };
+
+    vec3 operator+(const vec3 &v);
+
+    vec3 operator-(const vec3 &v);
+
+    vec3 operator+(const vec3 &lhs, const vec3 &rhs);
+
+    vec3 operator-(const vec3 &lhs, const vec3 &rhs);
+
+    vec3 operator+(const vec3 &lhs, double rhs);
+
+    vec3 operator-(const vec3 &lhs, double rhs);
+
+    vec3 operator+(double lhs, const vec3 &rhs);
+
+    vec3 operator-(double lhs, const vec3 &rhs);
+
+    vec3 operator+=(vec3 &lhs, const vec3 &rhs);
+
+    vec3 operator-=(vec3 &lhs, const vec3 &rhs);
+
+    vec3 operator+=(vec3 &lhs, double rhs);
+
+    vec3 operator-=(vec3 &lhs, double rhs);
+
+    vec3 operator*(const vec3 &lhs, const vec3 &rhs);
+
+    vec3 operator/(const vec3 &lhs, const vec3 &rhs);
+
+    vec3 operator*(const vec3 &lhs, double rhs);
+
+    vec3 operator/(const vec3 &lhs, double rhs);
+
+    vec3 operator*(double lhs, const vec3 &rhs);
+
+    vec3 operator/(double lhs, const vec3 &rhs);
+
+    vec3 operator*=(vec3 &lhs, const vec3 &rhs);
+
+    vec3 operator/=(vec3 &lhs, const vec3 &rhs);
+
+    vec3 operator*=(vec3 &lhs, double rhs);
+
+    vec3 operator/=(vec3 &lhs, double rhs);
+
+    bool operator==(const vec3 &lhs, const vec3 &rhs);
+
+    bool operator!=(const vec3 &lhs, const vec3 &rhs);
+
+    std::ostream &operator<<(std::ostream &stream, const vec3 &other);
 }
 
 #endif

@@ -1,10 +1,12 @@
 #ifndef VEC2_HPP
 #define VEC2_HPP
 
+#include "vec3.hpp"
 #include <iostream>
 
 namespace vec
 {
+    class vec3;
     class vec2
     {
     public:
@@ -12,6 +14,7 @@ namespace vec
 
         vec2() = default;
         vec2(double x, double y);
+        vec2(const vec3 &v3);
 
         double dot(const vec2 &v) const;
 
@@ -30,6 +33,56 @@ namespace vec
         double angle() const;
         double angle(const vec2 &v) const;
     };
+
+    vec2 operator+(const vec2 &v);
+
+    vec2 operator-(const vec2 &v);
+
+    vec2 operator+(const vec2 &lhs, const vec2 &rhs);
+
+    vec2 operator-(const vec2 &lhs, const vec2 &rhs);
+
+    vec2 operator+(const vec2 &lhs, double rhs);
+
+    vec2 operator-(const vec2 &lhs, double rhs);
+
+    vec2 operator+(double lhs, const vec2 &rhs);
+
+    vec2 operator-(double lhs, const vec2 &rhs);
+
+    vec2 operator+=(vec2 &lhs, const vec2 &rhs);
+
+    vec2 operator-=(vec2 &lhs, const vec2 &rhs);
+
+    vec2 operator+=(vec2 &lhs, double rhs);
+
+    vec2 operator-=(vec2 &lhs, double rhs);
+
+    vec2 operator*(const vec2 &lhs, const vec2 &rhs);
+
+    vec2 operator/(const vec2 &lhs, const vec2 &rhs);
+
+    vec2 operator*(const vec2 &lhs, double rhs);
+
+    vec2 operator/(const vec2 &lhs, double rhs);
+
+    vec2 operator*(double lhs, const vec2 &rhs);
+
+    vec2 operator/(double lhs, const vec2 &rhs);
+
+    vec2 operator*=(vec2 &lhs, const vec2 &rhs);
+
+    vec2 operator/=(vec2 &lhs, const vec2 &rhs);
+
+    vec2 operator*=(vec2 &lhs, double rhs);
+
+    vec2 operator/=(vec2 &lhs, double rhs);
+
+    bool operator==(const vec2 &lhs, const vec2 &rhs);
+
+    bool operator!=(const vec2 &lhs, const vec2 &rhs);
+
+    std::ostream &operator<<(std::ostream &stream, const vec2 &other);
 }
 
 #endif

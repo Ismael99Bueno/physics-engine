@@ -5,6 +5,8 @@ namespace vec
 {
     vec3::vec3(double x, double y, double z) : x(x), y(y), z(z) {}
 
+    vec3::vec3(const vec2 &v2) : x(v2.x), y(v2.y), z(0.0) {}
+
     double vec3::dot(const vec3 &v) const { return x * v.x + y * v.y + z * v.z; }
 
     double vec3::sq_dist(const vec3 &v) const { return (*this - v).sq_norm(); }
@@ -68,41 +70,41 @@ namespace vec
 
     vec3 operator-(const vec3 &lhs, const vec3 &rhs) { return lhs + (-rhs); }
 
-    vec3 operator+(const vec3 &lhs, const double &rhs) { return {lhs.x + rhs, lhs.y + rhs, lhs.z + rhs}; }
+    vec3 operator+(const vec3 &lhs, const double rhs) { return {lhs.x + rhs, lhs.y + rhs, lhs.z + rhs}; }
 
-    vec3 operator-(const vec3 &lhs, const double &rhs) { return lhs + (-rhs); }
+    vec3 operator-(const vec3 &lhs, const double rhs) { return lhs + (-rhs); }
 
-    vec3 operator+(const double &lhs, const vec3 &rhs) { return rhs + lhs; }
+    vec3 operator+(const double lhs, const vec3 &rhs) { return rhs + lhs; }
 
-    vec3 operator-(const double &lhs, const vec3 &rhs) { return -rhs + lhs; }
+    vec3 operator-(const double lhs, const vec3 &rhs) { return -rhs + lhs; }
 
     vec3 operator+=(vec3 &lhs, const vec3 &rhs) { return lhs = lhs + rhs; }
 
     vec3 operator-=(vec3 &lhs, const vec3 &rhs) { return lhs = lhs - rhs; }
 
-    vec3 operator+=(vec3 &lhs, const double &rhs) { return lhs = lhs + rhs; }
+    vec3 operator+=(vec3 &lhs, const double rhs) { return lhs = lhs + rhs; }
 
-    vec3 operator-=(vec3 &lhs, const double &rhs) { return lhs = lhs - rhs; }
+    vec3 operator-=(vec3 &lhs, const double rhs) { return lhs = lhs - rhs; }
 
     vec3 operator*(const vec3 &lhs, const vec3 &rhs) { return {lhs.x * rhs.x, lhs.y * rhs.y, lhs.z * rhs.z}; }
 
     vec3 operator/(const vec3 &lhs, const vec3 &rhs) { return {lhs.x / rhs.x, lhs.y / rhs.y, lhs.z / rhs.z}; }
 
-    vec3 operator*(const vec3 &lhs, const double &rhs) { return {lhs.x * rhs, lhs.y * rhs, lhs.z * rhs}; }
+    vec3 operator*(const vec3 &lhs, const double rhs) { return {lhs.x * rhs, lhs.y * rhs, lhs.z * rhs}; }
 
-    vec3 operator/(const vec3 &lhs, const double &rhs) { return {lhs.x / rhs, lhs.y / rhs, lhs.z / rhs}; }
+    vec3 operator/(const vec3 &lhs, const double rhs) { return {lhs.x / rhs, lhs.y / rhs, lhs.z / rhs}; }
 
-    vec3 operator*(const double &lhs, const vec3 &rhs) { return rhs * lhs; }
+    vec3 operator*(const double lhs, const vec3 &rhs) { return rhs * lhs; }
 
-    vec3 operator/(const double &lhs, const vec3 &rhs) { return rhs / lhs; }
+    vec3 operator/(const double lhs, const vec3 &rhs) { return rhs / lhs; }
 
     vec3 operator*=(vec3 &lhs, const vec3 &rhs) { return lhs = lhs * rhs; }
 
     vec3 operator/=(vec3 &lhs, const vec3 &rhs) { return lhs = lhs / rhs; }
 
-    vec3 operator*=(vec3 &lhs, const double &rhs) { return lhs = lhs * rhs; }
+    vec3 operator*=(vec3 &lhs, const double rhs) { return lhs = lhs * rhs; }
 
-    vec3 operator/=(vec3 &lhs, const double &rhs) { return lhs = lhs / rhs; }
+    vec3 operator/=(vec3 &lhs, const double rhs) { return lhs = lhs / rhs; }
 
     bool operator==(const vec3 &lhs, const vec3 &rhs) { return lhs.x == rhs.x && lhs.y == rhs.y && lhs.z == rhs.z; }
 

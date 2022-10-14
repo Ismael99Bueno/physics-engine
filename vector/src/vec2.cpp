@@ -5,6 +5,8 @@ namespace vec
 {
     vec2::vec2(double x, double y) : x(x), y(y) {}
 
+    vec2::vec2(const vec3 &v3) : x(v3.x), y(v3.y) {}
+
     double vec2::dot(const vec2 &v) const { return this->x * v.x + this->y * v.y; }
 
     double vec2::sq_dist(const vec2 &v) const { return (*this - v).sq_norm(); }
@@ -40,41 +42,41 @@ namespace vec
 
     vec2 operator-(const vec2 &lhs, const vec2 &rhs) { return lhs + (-rhs); }
 
-    vec2 operator+(const vec2 &lhs, const double &rhs) { return {lhs.x + rhs, lhs.y + rhs}; }
+    vec2 operator+(const vec2 &lhs, const double rhs) { return {lhs.x + rhs, lhs.y + rhs}; }
 
-    vec2 operator-(const vec2 &lhs, const double &rhs) { return lhs + (-rhs); }
+    vec2 operator-(const vec2 &lhs, const double rhs) { return lhs + (-rhs); }
 
-    vec2 operator+(const double &lhs, const vec2 &rhs) { return rhs + lhs; }
+    vec2 operator+(const double lhs, const vec2 &rhs) { return rhs + lhs; }
 
-    vec2 operator-(const double &lhs, const vec2 &rhs) { return -rhs + lhs; }
+    vec2 operator-(const double lhs, const vec2 &rhs) { return -rhs + lhs; }
 
     vec2 operator+=(vec2 &lhs, const vec2 &rhs) { return lhs = lhs + rhs; }
 
     vec2 operator-=(vec2 &lhs, const vec2 &rhs) { return lhs = lhs - rhs; }
 
-    vec2 operator+=(vec2 &lhs, const double &rhs) { return lhs = lhs + rhs; }
+    vec2 operator+=(vec2 &lhs, const double rhs) { return lhs = lhs + rhs; }
 
-    vec2 operator-=(vec2 &lhs, const double &rhs) { return lhs = lhs - rhs; }
+    vec2 operator-=(vec2 &lhs, const double rhs) { return lhs = lhs - rhs; }
 
     vec2 operator*(const vec2 &lhs, const vec2 &rhs) { return {lhs.x * rhs.x, lhs.y * rhs.y}; }
 
     vec2 operator/(const vec2 &lhs, const vec2 &rhs) { return {lhs.x / rhs.x, lhs.y / rhs.y}; }
 
-    vec2 operator*(const vec2 &lhs, const double &rhs) { return {lhs.x * rhs, lhs.y * rhs}; }
+    vec2 operator*(const vec2 &lhs, const double rhs) { return {lhs.x * rhs, lhs.y * rhs}; }
 
-    vec2 operator/(const vec2 &lhs, const double &rhs) { return {lhs.x / rhs, lhs.y / rhs}; }
+    vec2 operator/(const vec2 &lhs, const double rhs) { return {lhs.x / rhs, lhs.y / rhs}; }
 
-    vec2 operator*(const double &lhs, const vec2 &rhs) { return rhs * lhs; }
+    vec2 operator*(const double lhs, const vec2 &rhs) { return rhs * lhs; }
 
-    vec2 operator/(const double &lhs, const vec2 &rhs) { return lhs / rhs; }
+    vec2 operator/(const double lhs, const vec2 &rhs) { return lhs / rhs; }
 
     vec2 operator*=(vec2 &lhs, const vec2 &rhs) { return lhs = lhs * rhs; }
 
     vec2 operator/=(vec2 &lhs, const vec2 &rhs) { return lhs = lhs / rhs; }
 
-    vec2 operator*=(vec2 &lhs, const double &rhs) { return lhs = lhs * rhs; }
+    vec2 operator*=(vec2 &lhs, const double rhs) { return lhs = lhs * rhs; }
 
-    vec2 operator/=(vec2 &lhs, const double &rhs) { return lhs = lhs / rhs; }
+    vec2 operator/=(vec2 &lhs, const double rhs) { return lhs = lhs / rhs; }
 
     bool operator==(const vec2 &lhs, const vec2 &rhs) { return lhs.x == rhs.x && lhs.y == rhs.y; }
 
