@@ -2,7 +2,6 @@
 #define VEC2_HPP
 
 #include <iostream>
-#include <cmath>
 
 namespace vec
 {
