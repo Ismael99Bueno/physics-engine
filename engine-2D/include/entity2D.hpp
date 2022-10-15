@@ -12,7 +12,7 @@ namespace physics
         entity2D(const body2D &body);
 
         void retrieve();
-        void dispatch();
+        void dispatch() const;
 
         body2D &body();
         const body2D &body() const;
@@ -20,6 +20,7 @@ namespace physics
     private:
         body2D m_body;
         mutable double *m_buffer = nullptr;
+        friend class engine2D;
     };
 }
 

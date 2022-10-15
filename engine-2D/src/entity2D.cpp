@@ -12,7 +12,7 @@ namespace physics
         m_body.vel({m_buffer[2], m_buffer[3]});
     }
 
-    void entity2D::dispatch()
+    void entity2D::dispatch() const
     {
         DBG_EXIT_IF(!m_buffer, "Entity buffer not initialized, likely due to not being part of any engine.\n")
         m_buffer[0] = m_body.pos().x;
