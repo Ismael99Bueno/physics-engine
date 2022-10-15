@@ -25,7 +25,7 @@ namespace rk
                     k_sum += m_tableau.beta()[i - 1][k] * m_kvec[k][j];
                 aux_state[j] = m_state[j] + k_sum * dt;
             }
-            m_kvec[i] = ode(t, aux_state, params);
+            m_kvec[i] = ode(t + m_tableau.alpha()[i - 1] * dt, aux_state, params);
         }
     }
 
