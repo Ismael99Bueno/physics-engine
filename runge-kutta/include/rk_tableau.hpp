@@ -16,16 +16,16 @@ namespace rk
     public:
         tableau() = delete;
 
-        tableau(vector &&alpha,
-                matrix &&beta,
-                vector &&coefs,
+        tableau(const vector &alpha,
+                const matrix &beta,
+                const vector &coefs,
                 uint8 stage,
                 uint8 order);
 
-        tableau(vector &&alpha,
-                matrix &&beta,
-                vector &&coefs1,
-                vector &&coefs2,
+        tableau(const vector &alpha,
+                const matrix &beta,
+                const vector &coefs1,
+                const vector &coefs2,
                 uint8 stage,
                 uint8 order);
 
