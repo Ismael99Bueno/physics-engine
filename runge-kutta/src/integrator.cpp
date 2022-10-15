@@ -78,6 +78,12 @@ namespace rk
         return embedded_error(sol1, sol2) / coeff;
     }
 
+    void integrator::resize_state(std::size_t size)
+    {
+        m_state.resize(size);
+        resize_kvec();
+    }
+
     double integrator::tolerance() const { return m_tolerance; }
     double integrator::min_dt() const { return m_min_dt; }
     double integrator::max_dt() const { return m_max_dt; }

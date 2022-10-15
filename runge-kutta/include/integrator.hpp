@@ -41,6 +41,8 @@ namespace rk
                               const T &params,
                               vector (*ode)(double, const vector &, const T &));
 
+        void resize_state(std::size_t size);
+
         double tolerance() const;
         double min_dt() const;
         double max_dt() const;
