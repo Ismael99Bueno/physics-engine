@@ -28,7 +28,7 @@ namespace rk
 
     integrator::vector integrator::generate_solution(const double dt,
                                                      const vector &state,
-                                                     const vector &coefs) const
+                                                     const vector &coefs)
     {
         vector sol;
         sol.reserve(state.size());

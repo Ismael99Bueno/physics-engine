@@ -55,9 +55,8 @@ namespace rk
         const tableau m_tableau;
         vector &m_state;
         mutable matrix m_kvec;
-        double m_tolerance, m_min_dt, m_max_dt;
-        mutable double m_error;
-        mutable bool m_valid;
+        double m_tolerance, m_min_dt, m_max_dt, m_error;
+        bool m_valid;
 
         void resize_kvec() const;
 
@@ -70,7 +69,7 @@ namespace rk
 
         vector generate_solution(double dt,
                                  const vector &state,
-                                 const vector &coefs) const;
+                                 const vector &coefs);
 
         bool dt_too_small(double dt) const;
         bool dt_too_big(double dt) const;
