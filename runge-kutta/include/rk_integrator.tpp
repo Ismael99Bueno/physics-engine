@@ -10,20 +10,21 @@ namespace rk
     template <typename T>
     void integrator::update_kvec(const double t,
                                  const double dt,
+                                 const vector1d &state,
                                  const T &params,
                                  vector1d (*ode)(double, const vector1d &, const T &)) const
     {
-        vector1d aux_state(m_state.size());
+        vector1d aux_state(state.size());
 
-        m_kvec[0] = ode(t, m_state, params);
+        m_kvec[0] = ode(t, state, params);
         for (uint8 i = 1; i < m_tableau.stage(); i++)
         {
-            for (std::size_t j = 0; j < m_state.size(); j++)
+            for (std::size_t j = 0; j < state.size(); j++)
             {
                 double k_sum = 0.0;
                 for (uint8 k = 0; k < i; k++)
                     k_sum += m_tableau.beta()[i - 1][k] * m_kvec[k][j];
-                aux_state[j] = m_state[j] + k_sum * dt;
+                aux_state[j] = state[j] + k_sum * dt;
             }
             m_kvec[i] = ode(t + m_tableau.alpha()[i - 1] * dt, aux_state, params);
         }
@@ -37,8 +38,8 @@ namespace rk
     {
         DBG_EXIT_IF(dt_off_bounds(dt), "Timestep is not between established limits. Change the timestep or adjust the limits to include the current value.\n")
         m_valid = true;
-        update_kvec(t, dt, params, ode);
-        generate_solution(dt, m_tableau.coefs()).swap(m_state);
+        update_kvec(t, dt, m_state, params, ode);
+        m_state = generate_solution(dt, m_state, m_tableau.coefs());
         t += dt;
     }
 
@@ -49,23 +50,28 @@ namespace rk
                                          vector1d (*ode)(double, const vector1d &, const T &),
                                          const uint8 reiterations)
     {
-        DBG_EXIT_IF(reiterations < 2, "The amount of reiteration has to be greater than 1, otherwise the algorithm will break.\n")
+        DBG_EXIT_IF(reiterations < 2, "The amount of reiterations has to be greater than 1, otherwise the algorithm will break.\n")
         DBG_EXIT_IF(dt_off_bounds(dt), "Timestep is not between established limits. Change the timestep or adjust the limits to include the current value.\n")
         DBG_LOG_IF(m_tableau.embedded(), "Table has an embedded solution. Use an embedded adaptive method for better efficiency.\n")
         m_valid = true;
         for (;;)
         {
-            update_kvec(t, dt, params, ode);
-            const vector1d aux_sol = generate_solution(dt, m_tableau.coefs());
+            vector1d sol1 = m_state;
             for (uint8 i = 0; i < reiterations; i++)
             {
-                update_kvec(t, dt / reiterations, params, ode);
-                generate_solution(dt / reiterations, m_tableau.coefs()).swap(m_state);
+                update_kvec(t, dt / reiterations, sol1, params, ode);
+                sol1 = generate_solution(dt / reiterations, sol1, m_tableau.coefs());
             }
-            m_error = reiterative_error(m_state, aux_sol);
+
+            update_kvec(t, dt, m_state, params, ode);
+            const vector1d sol2 = generate_solution(dt, m_state, m_tableau.coefs());
+            m_error = reiterative_error(sol1, sol2);
             if (m_error <= m_tolerance || dt_too_small(dt))
+            {
+                m_state = sol1;
                 break;
-            dt /= 2.0;
+            }
+            dt *= SAFETY_FACTOR * std::pow(m_tolerance / m_error, 1.0 / (m_tableau.order() + 1U));
         }
         m_error = std::max(m_error, m_tolerance / TOL_PART);
         t += dt;
@@ -83,13 +89,16 @@ namespace rk
         m_valid = true;
         for (;;)
         {
-            update_kvec(t, dt, params, ode);
-            const vector1d aux_sol = generate_solution(dt, m_tableau.coefs2());
-            generate_solution(dt, m_tableau.coefs1()).swap(m_state);
-            m_error = embedded_error(m_state, aux_sol);
+            update_kvec(t, dt, m_state, params, ode);
+            const vector1d sol1 = generate_solution(dt, m_state, m_tableau.coefs1());
+            const vector1d sol2 = generate_solution(dt, m_state, m_tableau.coefs2());
+            m_error = embedded_error(sol1, sol2);
 
             if (m_error <= m_tolerance || dt_too_small(dt))
+            {
+                m_state = sol1;
                 break;
+            }
             dt *= SAFETY_FACTOR * pow(m_tolerance / m_error, 1.0 / m_tableau.order());
         }
         m_error = std::max(m_error, m_tolerance / TOL_PART);

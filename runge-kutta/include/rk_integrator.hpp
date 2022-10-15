@@ -69,10 +69,12 @@ namespace rk
         template <typename T>
         void update_kvec(double t,
                          double dt,
+                         const vector1d &state,
                          const T &params,
                          vector1d (*ode)(double, const vector1d &, const T &)) const;
 
         vector1d generate_solution(double dt,
+                                   const vector1d &state,
                                    const vector1d &coefs) const;
 
         bool dt_too_small(double dt) const;

@@ -39,18 +39,19 @@ namespace rk
     }
 
     integrator::vector1d integrator::generate_solution(const double dt,
+                                                       const vector1d &state,
                                                        const vector1d &coefs) const
     {
         vector1d sol;
-        sol.reserve(m_state.size());
-        for (std::size_t j = 0; j < m_state.size(); j++)
+        sol.reserve(state.size());
+        for (std::size_t j = 0; j < state.size(); j++)
         {
             double sum = 0.0;
             for (uint8 i = 0; i < m_tableau.stage(); i++)
                 sum += coefs[i] * m_kvec[i][j];
             m_valid &= !isnan(sum);
             DBG_LOG_IF(!m_valid, "NaN encountered when computing runge-kutta solution.\n")
-            sol.emplace_back(m_state[j] + sum * dt);
+            sol.emplace_back(state[j] + sum * dt);
         }
         return sol;
     }
