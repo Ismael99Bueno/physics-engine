@@ -1,13 +1,13 @@
 workspace "physics-engine"
     architecture "arm64"
     configurations {"Debug", "Release", "Test"}
-    startproject "engine"
+    startproject "playground"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 include "vector"
 include "runge-kutta"
-include "engine"
+include "playground"
 
 newaction {
     trigger = "clean",

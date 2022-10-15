@@ -1,4 +1,4 @@
-project "engine"
+project "playground"
    kind "ConsoleApp"
    links {"vector", "runge-kutta"}
 
