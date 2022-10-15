@@ -1,7 +1,7 @@
 #ifndef INTEGRATOR_HPP
 #define INTEGRATOR_HPP
 
-#include "rk_tableau.hpp"
+#include "tableau.hpp"
 #include <cstdint>
 
 namespace rk
@@ -79,6 +79,6 @@ namespace rk
     };
 }
 
-#include "rk_integrator.tpp"
+#include "integrator.tpp"
 
 #endif
