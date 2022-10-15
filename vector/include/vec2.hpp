@@ -10,7 +10,7 @@ namespace vec
     class vec2
     {
     public:
-        double x, y;
+        double x = 0.0, y = 0.0;
 
         vec2() = default;
         vec2(double x, double y);
