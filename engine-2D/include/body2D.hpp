@@ -4,16 +4,16 @@
 #include "vec2.hpp"
 using namespace vec;
 
-namespace physics2D
+namespace physics
 {
-    class body
+    class body2D
     {
     public:
-        body() = default;
-        body(const vec2 &pos);
-        body(const vec2 &pos, const vec2 &vel);
-        body(const vec2 &pos, const vec2 &vel, double mass);
-        body(const vec2 &pos, const vec2 &vel, double mass, double charge);
+        body2D() = default;
+        body2D(const vec2 &pos);
+        body2D(const vec2 &pos, const vec2 &vel);
+        body2D(const vec2 &pos, const vec2 &vel, double mass);
+        body2D(const vec2 &pos, const vec2 &vel, double mass, double charge);
 
         vec2 &position();
         const vec2 &position() const;
