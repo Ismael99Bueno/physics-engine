@@ -1,6 +1,6 @@
 project "playground"
    kind "ConsoleApp"
-   links {"vector", "runge-kutta"}
+   links {"vector", "runge-kutta", "engine-2D"}
 
    language "C++"
    cppdialect "C++17"
