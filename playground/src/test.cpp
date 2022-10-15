@@ -1,10 +1,9 @@
 #include <iostream>
-#include "entity2D.hpp"
+#include "prefab.hpp"
+#include "engine2D.hpp"
 #include <cmath>
 
 int main()
 {
-    physics::entity2D e = {{{1.0, 2.0}, {1.0, 1.0}}};
-    e.retrieve();
-    std::cout << e.body().vel() << "\n";
+    physics::engine2D eng(rk::rk4);
 }
