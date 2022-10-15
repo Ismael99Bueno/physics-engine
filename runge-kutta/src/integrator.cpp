@@ -78,6 +78,13 @@ namespace rk
         return embedded_error(sol1, sol2) / coeff;
     }
 
+    void integrator::reserve_state(std::size_t size)
+    {
+        m_state.reserve(size);
+        for (vector &v : m_kvec)
+            v.reserve(size);
+    }
+
     void integrator::resize_state(std::size_t size)
     {
         m_state.resize(size);
