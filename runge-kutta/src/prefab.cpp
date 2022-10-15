@@ -1,4 +1,4 @@
-#include "rk_prefab.hpp"
+#include "prefab.hpp"
 
 namespace rk
 {
