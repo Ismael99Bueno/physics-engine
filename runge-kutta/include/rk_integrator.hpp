@@ -27,17 +27,23 @@ namespace rk
                    double min_dt = 1e-6,
                    double max_dt = 1.0);
 
+        template <typename T>
         void raw_forward(double &t,
                          double dt,
-                         vector1d (*ode)(double, const vector1d &));
+                         const T &params,
+                         vector1d (*ode)(double, const vector1d &, const T &));
 
+        template <typename T>
         void reiterative_forward(double &t,
                                  double &dt,
-                                 vector1d (*ode)(double, const vector1d &));
+                                 const T &params,
+                                 vector1d (*ode)(double, const vector1d &, const T &));
 
+        template <typename T>
         void embedded_forward(double &t,
                               double &dt,
-                              vector1d (*ode)(double, const vector1d &));
+                              const T &params,
+                              vector1d (*ode)(double, const vector1d &, const T &));
 
         double tolerance() const;
         double min_dt() const;
@@ -59,17 +65,21 @@ namespace rk
 
         void resize_kvec() const;
 
+        template <typename T>
         void update_kvec(double t,
                          double dt,
-                         vector1d (*ode)(double, const vector1d &)) const;
+                         const T &params,
+                         vector1d (*ode)(double, const vector1d &, const T &)) const;
 
         vector1d generate_solution(double dt,
                                    const vector1d &coefs) const;
 
+        template <typename T>
         vector1d integrate(double t,
                            double dt,
                            const vector1d &coefs,
-                           vector1d (*ode)(double, const vector1d &)) const;
+                           const T &params,
+                           vector1d (*ode)(double, const vector1d &, const T &)) const;
 
         bool dt_too_small(double dt) const;
         bool dt_too_big(double dt) const;
@@ -78,5 +88,7 @@ namespace rk
         double reiterative_error(const vector1d &sol1, const vector1d &sol2) const;
     };
 }
+
+#include "rk_integrator.tpp"
 
 #endif
