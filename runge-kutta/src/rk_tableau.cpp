@@ -2,9 +2,9 @@
 
 namespace rk
 {
-    tableau::tableau(const vector1d &alpha,
-                     const vector2d &beta,
-                     const vector1d &coefs,
+    tableau::tableau(const vector &alpha,
+                     const matrix &beta,
+                     const vector &coefs,
                      const uint8 stage,
                      const uint8 order) : m_alpha(alpha),
                                           m_coefs1(coefs),
@@ -13,10 +13,10 @@ namespace rk
                                           m_stage(stage),
                                           m_order(order) {}
 
-    tableau::tableau(const vector1d &alpha,
-                     const vector2d &beta,
-                     const vector1d &coefs1,
-                     const vector1d &coefs2,
+    tableau::tableau(const vector &alpha,
+                     const matrix &beta,
+                     const vector &coefs1,
+                     const vector &coefs2,
                      const uint8 stage,
                      const uint8 order) : m_alpha(alpha),
                                           m_coefs1(coefs1),
@@ -26,9 +26,9 @@ namespace rk
                                           m_stage(stage),
                                           m_order(order) {}
 
-    tableau::tableau(vector1d &&alpha,
-                     vector2d &&beta,
-                     vector1d &&coefs,
+    tableau::tableau(vector &&alpha,
+                     matrix &&beta,
+                     vector &&coefs,
                      const uint8 stage,
                      const uint8 order) : m_alpha(std::move(alpha)),
                                           m_coefs1(std::move(coefs)),
@@ -37,10 +37,10 @@ namespace rk
                                           m_stage(stage),
                                           m_order(order) {}
 
-    tableau::tableau(vector1d &&alpha,
-                     vector2d &&beta,
-                     vector1d &&coefs1,
-                     vector1d &&coefs2,
+    tableau::tableau(vector &&alpha,
+                     matrix &&beta,
+                     vector &&coefs1,
+                     vector &&coefs2,
                      const uint8 stage,
                      const uint8 order) : m_alpha(std::move(alpha)),
                                           m_coefs1(std::move(coefs1)),
@@ -50,11 +50,11 @@ namespace rk
                                           m_stage(stage),
                                           m_order(order) {}
 
-    const tableau::vector1d &tableau::alpha() const { return m_alpha; }
-    const tableau::vector2d &tableau::beta() const { return m_beta; }
-    const tableau::vector1d &tableau::coefs() const { return m_coefs1; }
-    const tableau::vector1d &tableau::coefs1() const { return m_coefs1; }
-    const tableau::vector1d &tableau::coefs2() const
+    const tableau::vector &tableau::alpha() const { return m_alpha; }
+    const tableau::matrix &tableau::beta() const { return m_beta; }
+    const tableau::vector &tableau::coefs() const { return m_coefs1; }
+    const tableau::vector &tableau::coefs1() const { return m_coefs1; }
+    const tableau::vector &tableau::coefs2() const
     {
         if (!m_embedded)
             throw "Cannot access to the second set of coefficients if the tableau is not embedded";
