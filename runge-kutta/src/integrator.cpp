@@ -1,4 +1,4 @@
-#include "rk_integrator.hpp"
+#include "integrator.hpp"
 #include "debug.h"
 #include <cmath>
 

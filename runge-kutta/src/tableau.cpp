@@ -1,4 +1,4 @@
-#include "rk_tableau.hpp"
+#include "tableau.hpp"
 
 namespace rk
 {

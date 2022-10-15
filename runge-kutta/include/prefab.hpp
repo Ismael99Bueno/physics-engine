@@ -1,5 +1,5 @@
-#ifndef RK_PREFAB_HPP
-#define RK_PREFAB_HPP
+#ifndef PREFAB_HPP
+#define PREFAB_HPP
 
 #include "rk_tableau.hpp"
 

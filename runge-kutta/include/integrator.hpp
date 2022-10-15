@@ -1,5 +1,5 @@
-#ifndef RK_INTEGRATOR_HPP
-#define RK_INTEGRATOR_HPP
+#ifndef INTEGRATOR_HPP
+#define INTEGRATOR_HPP
 
 #include "rk_tableau.hpp"
 #include <cstdint>

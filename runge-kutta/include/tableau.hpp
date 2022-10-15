@@ -1,5 +1,5 @@
-#ifndef RK_TABLEAU_HPP
-#define RK_TABLEAU_HPP
+#ifndef TABLEAU_HPP
+#define TABLEAU_HPP
 
 #include <vector>
 #include <cstdint>
