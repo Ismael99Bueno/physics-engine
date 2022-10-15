@@ -37,7 +37,8 @@ namespace rk
         void reiterative_forward(double &t,
                                  double &dt,
                                  const T &params,
-                                 vector1d (*ode)(double, const vector1d &, const T &));
+                                 vector1d (*ode)(double, const vector1d &, const T &),
+                                 uint8 reiterations = 2);
 
         template <typename T>
         void embedded_forward(double &t,
@@ -73,13 +74,6 @@ namespace rk
 
         vector1d generate_solution(double dt,
                                    const vector1d &coefs) const;
-
-        template <typename T>
-        vector1d integrate(double t,
-                           double dt,
-                           const vector1d &coefs,
-                           const T &params,
-                           vector1d (*ode)(double, const vector1d &, const T &)) const;
 
         bool dt_too_small(double dt) const;
         bool dt_too_big(double dt) const;

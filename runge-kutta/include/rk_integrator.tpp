@@ -30,17 +30,6 @@ namespace rk
     }
 
     template <typename T>
-    integrator::vector1d integrator::integrate(double t,
-                                               double dt,
-                                               const vector1d &coefs,
-                                               const T &params,
-                                               vector1d (*ode)(double, const vector1d &, const T &)) const
-    {
-        update_kvec(t, dt, params, ode);
-        return generate_solution(dt, coefs);
-    }
-
-    template <typename T>
     void integrator::raw_forward(double &t,
                                  const double dt,
                                  const T &params,
@@ -48,7 +37,8 @@ namespace rk
     {
         DBG_EXIT_IF(dt_off_bounds(dt), "Timestep is not between established limits. Change the timestep or adjust the limits to include the current value.\n")
         m_valid = true;
-        integrate(t, dt, m_tableau.coefs(), params, ode).swap(m_state);
+        update_kvec(t, dt, params, ode);
+        generate_solution(dt, m_tableau.coefs()).swap(m_state);
         t += dt;
     }
 
@@ -56,16 +46,22 @@ namespace rk
     void integrator::reiterative_forward(double &t,
                                          double &dt,
                                          const T &params,
-                                         vector1d (*ode)(double, const vector1d &, const T &))
+                                         vector1d (*ode)(double, const vector1d &, const T &),
+                                         const uint8 reiterations)
     {
+        DBG_EXIT_IF(reiterations < 2, "The amount of reiteration has to be greater than 1, otherwise the algorithm will break.\n")
         DBG_EXIT_IF(dt_off_bounds(dt), "Timestep is not between established limits. Change the timestep or adjust the limits to include the current value.\n")
         DBG_LOG_IF(m_tableau.embedded(), "Table has an embedded solution. Use an embedded adaptive method for better efficiency.\n")
         m_valid = true;
         for (;;)
         {
-            const vector1d aux_sol = integrate(t, dt, m_tableau.coefs(), params, ode);
-            integrate(t, dt / 2.0, m_tableau.coefs(), params, ode).swap(m_state);
-            integrate(t, dt / 2.0, m_tableau.coefs(), params, ode).swap(m_state);
+            update_kvec(t, dt, params, ode);
+            const vector1d aux_sol = generate_solution(dt, m_tableau.coefs());
+            for (uint8 i = 0; i < reiterations; i++)
+            {
+                update_kvec(t, dt / reiterations, params, ode);
+                generate_solution(dt / reiterations, m_tableau.coefs()).swap(m_state);
+            }
             m_error = reiterative_error(m_state, aux_sol);
             if (m_error <= m_tolerance || dt_too_small(dt))
                 break;
