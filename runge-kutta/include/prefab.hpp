@@ -1,7 +1,7 @@
 #ifndef PREFAB_HPP
 #define PREFAB_HPP
 
-#include "rk_tableau.hpp"
+#include "tableau.hpp"
 
 namespace rk
 {
