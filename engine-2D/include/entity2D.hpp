@@ -12,6 +12,7 @@ namespace physics
         entity2D(const body2D &body);
 
         void retrieve();
+        void dispatch();
 
         body2D &body();
         const body2D &body() const;
