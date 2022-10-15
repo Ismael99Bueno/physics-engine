@@ -19,7 +19,7 @@ namespace physics
 
     private:
         body2D m_body;
-        double *m_buffer = nullptr;
+        mutable double *m_buffer = nullptr;
     };
 }
 
