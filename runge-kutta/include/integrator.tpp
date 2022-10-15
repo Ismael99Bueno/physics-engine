@@ -14,6 +14,7 @@ namespace rk
                                  const T &params,
                                  vector (*ode)(double, const vector &, const T &)) const
     {
+        DBG_EXIT_IF(state.size() != m_kvec[0].size(), "State and k-vectors size mismatch!\n")
         vector aux_state(state.size());
 
         m_kvec[0] = ode(t, state, params);
