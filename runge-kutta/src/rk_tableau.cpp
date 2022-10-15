@@ -2,30 +2,6 @@
 
 namespace rk
 {
-    tableau::tableau(const vector &alpha,
-                     const matrix &beta,
-                     const vector &coefs,
-                     const uint8 stage,
-                     const uint8 order) : m_alpha(alpha),
-                                          m_coefs1(coefs),
-                                          m_beta(beta),
-                                          m_embedded(false),
-                                          m_stage(stage),
-                                          m_order(order) {}
-
-    tableau::tableau(const vector &alpha,
-                     const matrix &beta,
-                     const vector &coefs1,
-                     const vector &coefs2,
-                     const uint8 stage,
-                     const uint8 order) : m_alpha(alpha),
-                                          m_coefs1(coefs1),
-                                          m_coefs2(coefs1),
-                                          m_beta(beta),
-                                          m_embedded(true),
-                                          m_stage(stage),
-                                          m_order(order) {}
-
     tableau::tableau(vector &&alpha,
                      matrix &&beta,
                      vector &&coefs,

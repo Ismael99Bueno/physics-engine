@@ -21,11 +21,6 @@ namespace rk
                    double tolerance = 1e-6,
                    double min_dt = 1e-6,
                    double max_dt = 1.0);
-        integrator(tableau &&tb,
-                   vector &state,
-                   double tolerance = 1e-6,
-                   double min_dt = 1e-6,
-                   double max_dt = 1.0);
 
         template <typename T>
         void raw_forward(double &t,

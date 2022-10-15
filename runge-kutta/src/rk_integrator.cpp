@@ -19,18 +19,6 @@ namespace rk
                                                   m_error(0.0),
                                                   m_valid(true) { resize_kvec(); }
 
-    integrator::integrator(tableau &&tb,
-                           vector &state,
-                           const double tolerance,
-                           const double min_dt,
-                           const double max_dt) : m_tableau(std::move(tb)),
-                                                  m_state(state),
-                                                  m_tolerance(tolerance),
-                                                  m_min_dt(min_dt),
-                                                  m_max_dt(max_dt),
-                                                  m_error(0.0),
-                                                  m_valid(true) { resize_kvec(); }
-
     void integrator::resize_kvec() const
     {
         m_kvec.resize(m_tableau.stage());
