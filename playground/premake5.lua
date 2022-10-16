@@ -1,6 +1,5 @@
 project "playground"
    kind "ConsoleApp"
-   links {"vector", "runge-kutta", "vec-ptr", "engine-2D"}
 
    language "C++"
    cppdialect "C++17"
@@ -10,7 +9,9 @@ project "playground"
    objdir("../build/" .. outputdir .. "/%{prj.name}")
 
    files {"src/**.cpp", "include/**.hpp"}
-   includedirs "../**/include"
+   includedirs {"../**/include", "/opt/homebrew/Cellar/sfml/2.5.1_2/include"}
+   libdirs "/opt/homebrew/Cellar/sfml/2.5.1_2/lib"
+   links {"vector", "runge-kutta", "vec-ptr", "engine-2D", "sfml-graphics", "sfml-window", "sfml-system"}
 
    filter "configurations:Debug"
       defines { "DEBUG" }
