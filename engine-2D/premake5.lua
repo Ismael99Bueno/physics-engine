@@ -1,31 +1,27 @@
-project "engine"
-   kind "ConsoleApp"
-   links {"vector", "runge-kutta"}
-
+project "engine-2D"
    language "C++"
    cppdialect "C++17"
    staticruntime "on"
+   kind "StaticLib"
 
    targetdir("../bin/" .. outputdir)
    objdir("../build/" .. outputdir .. "/%{prj.name}")
 
    files {"src/**.cpp", "include/**.hpp"}
+
    includedirs "../**/include"
 
    filter "configurations:Debug"
       defines { "DEBUG" }
       runtime "Debug"
       symbols "On"
-      removefiles "src/test.cpp"
 
    filter "configurations:Release"
       defines { "NDEBUG" }
       runtime "Release"
       optimize "On"
-      removefiles "src/test.cpp"
 
    filter "configurations:Test"
       defines { "DEBUG" }
       runtime "Debug"
       symbols "On"
-      removefiles "src/main.cpp"
