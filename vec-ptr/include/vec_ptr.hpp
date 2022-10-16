@@ -10,7 +10,7 @@ namespace utils
     {
     public:
         vec_ptr() = default;
-        vec_ptr(std::vector<double> *buffer, std::size_t index);
+        vec_ptr(std::vector<double> *buffer, std::size_t index = 0);
 
         double &operator[](const std::size_t idx);
         const double &operator[](const std::size_t idx) const;
