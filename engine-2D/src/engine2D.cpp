@@ -30,22 +30,19 @@ namespace physics
     bool engine2D::raw_forward()
     {
         DBG_EXIT_IF(m_entities.empty(), "No entities to integrate!\n")
-        m_integ.raw_forward(m_t, m_dt, *this, ode);
-        return m_integ.valid();
+        return m_integ.raw_forward(m_t, m_dt, *this, ode);
     }
 
     bool engine2D::reiterative_forward()
     {
         DBG_EXIT_IF(m_entities.empty(), "No entities to integrate!\n")
-        m_integ.reiterative_forward(m_t, m_dt, *this, ode);
-        return m_integ.valid();
+        return m_integ.reiterative_forward(m_t, m_dt, *this, ode);
     }
 
     bool engine2D::embedded_forward()
     {
         DBG_EXIT_IF(m_entities.empty(), "No entities to integrate!\n")
-        m_integ.embedded_forward(m_t, m_dt, *this, ode);
-        return m_integ.valid();
+        return m_integ.embedded_forward(m_t, m_dt, *this, ode);
     }
 
     void engine2D::until(double time_threshold, bool (engine2D::*forward)())
