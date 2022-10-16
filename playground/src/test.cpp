@@ -27,21 +27,26 @@ class gravitation : public interaction2D
 
 int main()
 {
-    engine2D eng(rk::rk4);
+    engine2D eng(rk::rkf45, 0.01);
     entity2D &e1 = eng.add(), &e2 = eng.add();
     e1.body().pos({1.0, 0.0});
-    e1.body().vel({0.0, -1.0});
+    e1.body().vel({0.0, -1.2});
     e1.dispatch();
+    // e2.dynamic(false);
 
     gravitation grav;
 
     grav.add(e1);
     grav.add(e2);
     eng.add(grav);
-    while (eng.elapsed() < 1.0)
+
+    std::size_t iters = 0;
+    while (eng.elapsed() < 50.0)
     {
-        eng.raw_forward();
+        eng.embedded_forward();
         e1.retrieve();
         std::cout << e1.body().pos() << " " << e1.body().vel() << "\n";
+        iters++;
     }
+    std::cout << "Iters: " << iters << "\n";
 }
