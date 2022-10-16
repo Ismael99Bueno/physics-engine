@@ -32,7 +32,7 @@ namespace rk
     }
 
     template <typename T>
-    void integrator::raw_forward(double &t,
+    bool integrator::raw_forward(double &t,
                                  const double dt,
                                  const T &params,
                                  vector (*ode)(double, const vector &, const T &))
@@ -42,10 +42,11 @@ namespace rk
         update_kvec(t, dt, m_state, params, ode);
         m_state = generate_solution(dt, m_state, m_tableau.coefs());
         t += dt;
+        return m_valid;
     }
 
     template <typename T>
-    void integrator::reiterative_forward(double &t,
+    bool integrator::reiterative_forward(double &t,
                                          double &dt,
                                          const T &params,
                                          vector (*ode)(double, const vector &, const T &),
@@ -77,10 +78,11 @@ namespace rk
         m_error = std::max(m_error, m_tolerance / TOL_PART);
         t += dt;
         dt = std::clamp(SAFETY_FACTOR * dt * std::pow(m_tolerance / m_error, 1.0 / m_tableau.order()), m_min_dt, m_max_dt);
+        return m_valid;
     }
 
     template <typename T>
-    void integrator::embedded_forward(double &t,
+    bool integrator::embedded_forward(double &t,
                                       double &dt,
                                       const T &params,
                                       vector (*ode)(double, const vector &, const T &))
@@ -105,5 +107,6 @@ namespace rk
         m_error = std::max(m_error, m_tolerance / TOL_PART);
         t += dt;
         dt = std::clamp(SAFETY_FACTOR * dt * std::pow(m_tolerance / m_error, 1.0 / (m_tableau.order() - 1)), m_min_dt, m_max_dt);
+        return m_valid;
     }
 }

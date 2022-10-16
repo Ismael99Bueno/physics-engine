@@ -95,7 +95,6 @@ namespace rk
     double integrator::min_dt() const { return m_min_dt; }
     double integrator::max_dt() const { return m_max_dt; }
     double integrator::error() const { return m_error; }
-    bool integrator::valid() const { return m_valid; }
 
     void integrator::tolerance(const double val) { m_tolerance = val; }
     void integrator::min_dt(const double val) { m_min_dt = val; }

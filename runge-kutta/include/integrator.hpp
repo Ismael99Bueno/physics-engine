@@ -23,20 +23,20 @@ namespace rk
                    double max_dt = 1.0);
 
         template <typename T>
-        void raw_forward(double &t,
+        bool raw_forward(double &t,
                          double dt,
                          const T &params,
                          vector (*ode)(double, const vector &, const T &));
 
         template <typename T>
-        void reiterative_forward(double &t,
+        bool reiterative_forward(double &t,
                                  double &dt,
                                  const T &params,
                                  vector (*ode)(double, const vector &, const T &),
                                  uint8 reiterations = 2);
 
         template <typename T>
-        void embedded_forward(double &t,
+        bool embedded_forward(double &t,
                               double &dt,
                               const T &params,
                               vector (*ode)(double, const vector &, const T &));
@@ -48,7 +48,6 @@ namespace rk
         double min_dt() const;
         double max_dt() const;
         double error() const;
-        bool valid() const;
 
         void tolerance(double val);
         void min_dt(double val);
