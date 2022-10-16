@@ -19,11 +19,16 @@ namespace physics
         void add(const entity2D &entity);
         void add(const std::vector<entity2D> &entities);
 
+        bool raw_forward();
+        void until(double time_threshold, bool (engine2D::*forward)());
+
     private:
         std::vector<entity2D> m_entities;
         std::vector<double> m_buffer;
         rk::integrator m_integ;
-        double m_dt;
+        double m_dt, m_t = 0.0;
+
+        friend std::vector<double> ode(double t, const std::vector<double> &state, const engine2D &eng);
     };
 }
 
