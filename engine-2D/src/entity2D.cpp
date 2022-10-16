@@ -23,4 +23,7 @@ namespace physics
 
     body2D &entity2D::body() { return m_body; }
     const body2D &entity2D::body() const { return m_body; }
+
+    bool entity2D::dynamic() const { return m_dynamic; }
+    void entity2D::dynamic(bool dynamic) { m_dynamic = dynamic; }
 }

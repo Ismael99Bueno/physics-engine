@@ -8,6 +8,9 @@ namespace physics
         for (std::size_t i = 0; i < eng.m_entities.size(); i++)
         {
             const entity2D &entity1 = eng.m_entities[i];
+            if (!entity1.dynamic())
+                continue;
+
             std::size_t j = 4 * i;
             result[j + 0] = state[j + 2];
             result[j + 1] = state[j + 3];
