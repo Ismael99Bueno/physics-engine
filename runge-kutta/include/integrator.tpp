@@ -1,4 +1,4 @@
-#include "rk_integrator.hpp"
+#include "integrator.hpp"
 #include "debug.h"
 #include <cmath>
 
@@ -10,11 +10,12 @@ namespace rk
     template <typename T>
     void integrator::update_kvec(const double t,
                                  const double dt,
-                                 const vector1d &state,
+                                 const vector &state,
                                  const T &params,
-                                 vector1d (*ode)(double, const vector1d &, const T &)) const
+                                 vector (*ode)(double, const vector &, const T &)) const
     {
-        vector1d aux_state(state.size());
+        DBG_EXIT_IF(state.size() != m_kvec[0].size(), "State and k-vectors size mismatch!\n")
+        vector aux_state(state.size());
 
         m_kvec[0] = ode(t, state, params);
         for (uint8 i = 1; i < m_tableau.stage(); i++)
@@ -31,23 +32,24 @@ namespace rk
     }
 
     template <typename T>
-    void integrator::raw_forward(double &t,
+    bool integrator::raw_forward(double &t,
                                  const double dt,
                                  const T &params,
-                                 vector1d (*ode)(double, const vector1d &, const T &))
+                                 vector (*ode)(double, const vector &, const T &))
     {
         DBG_EXIT_IF(dt_off_bounds(dt), "Timestep is not between established limits. Change the timestep or adjust the limits to include the current value.\n")
         m_valid = true;
         update_kvec(t, dt, m_state, params, ode);
         m_state = generate_solution(dt, m_state, m_tableau.coefs());
         t += dt;
+        return m_valid;
     }
 
     template <typename T>
-    void integrator::reiterative_forward(double &t,
+    bool integrator::reiterative_forward(double &t,
                                          double &dt,
                                          const T &params,
-                                         vector1d (*ode)(double, const vector1d &, const T &),
+                                         vector (*ode)(double, const vector &, const T &),
                                          const uint8 reiterations)
     {
         DBG_EXIT_IF(reiterations < 2, "The amount of reiterations has to be greater than 1, otherwise the algorithm will break.\n")
@@ -56,7 +58,7 @@ namespace rk
         m_valid = true;
         for (;;)
         {
-            vector1d sol1 = m_state;
+            vector sol1 = m_state;
             for (uint8 i = 0; i < reiterations; i++)
             {
                 update_kvec(t, dt / reiterations, sol1, params, ode);
@@ -64,7 +66,7 @@ namespace rk
             }
 
             update_kvec(t, dt, m_state, params, ode);
-            const vector1d sol2 = generate_solution(dt, m_state, m_tableau.coefs());
+            const vector sol2 = generate_solution(dt, m_state, m_tableau.coefs());
             m_error = reiterative_error(sol1, sol2);
             if (m_error <= m_tolerance || dt_too_small(dt))
             {
@@ -76,13 +78,14 @@ namespace rk
         m_error = std::max(m_error, m_tolerance / TOL_PART);
         t += dt;
         dt = std::clamp(SAFETY_FACTOR * dt * std::pow(m_tolerance / m_error, 1.0 / m_tableau.order()), m_min_dt, m_max_dt);
+        return m_valid;
     }
 
     template <typename T>
-    void integrator::embedded_forward(double &t,
+    bool integrator::embedded_forward(double &t,
                                       double &dt,
                                       const T &params,
-                                      vector1d (*ode)(double, const vector1d &, const T &))
+                                      vector (*ode)(double, const vector &, const T &))
     {
         DBG_EXIT_IF(!m_tableau.embedded(), "Cannot perform embedded adaptive stepsize without an embedded solution.\n")
         DBG_EXIT_IF(dt_off_bounds(dt), "Timestep is not between established limits. Change the timestep or adjust the limits to include the current value.\n")
@@ -90,8 +93,8 @@ namespace rk
         for (;;)
         {
             update_kvec(t, dt, m_state, params, ode);
-            const vector1d sol1 = generate_solution(dt, m_state, m_tableau.coefs1());
-            const vector1d sol2 = generate_solution(dt, m_state, m_tableau.coefs2());
+            const vector sol1 = generate_solution(dt, m_state, m_tableau.coefs1());
+            const vector sol2 = generate_solution(dt, m_state, m_tableau.coefs2());
             m_error = embedded_error(sol1, sol2);
 
             if (m_error <= m_tolerance || dt_too_small(dt))
@@ -104,5 +107,6 @@ namespace rk
         m_error = std::max(m_error, m_tolerance / TOL_PART);
         t += dt;
         dt = std::clamp(SAFETY_FACTOR * dt * std::pow(m_tolerance / m_error, 1.0 / (m_tableau.order() - 1)), m_min_dt, m_max_dt);
+        return m_valid;
     }
 }
