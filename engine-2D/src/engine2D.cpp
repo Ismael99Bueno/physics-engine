@@ -25,6 +25,7 @@ namespace physics
     }
 
     void engine2D::add(const force2D &force) { m_forces.insert(&force); }
+    void engine2D::add(const interaction2D &inter) { m_interactions.insert(&inter); }
 
     bool engine2D::raw_forward()
     {
