@@ -24,6 +24,8 @@ namespace physics
         void add(const interaction2D &inter);
 
         bool raw_forward();
+        bool reiterative_forward();
+        bool embedded_forward();
         void until(double time_threshold, bool (engine2D::*forward)());
 
         double elapsed() const;
