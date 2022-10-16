@@ -1,6 +1,6 @@
 #include <iostream>
-#include "rk_integrator.hpp"
-#include "rk_prefab.hpp"
+#include "integrator.hpp"
+#include "prefab.hpp"
 #include <cmath>
 
 struct lv
