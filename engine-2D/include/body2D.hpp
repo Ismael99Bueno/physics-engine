@@ -28,7 +28,7 @@ namespace physics
         void charge(double charge);
 
     private:
-        vec2 m_pos = {0.0, 0.0}, m_vel = {0.0, 0.0};
+        vec2 m_pos, m_vel;
         double m_mass = 1.0, m_charge = 1.0;
     };
 }
