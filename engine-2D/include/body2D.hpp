@@ -2,10 +2,10 @@
 #define BODY2D_HPP
 
 #include "vec2.hpp"
-using namespace vec;
 
 namespace physics
 {
+    using namespace vec;
     class body2D
     {
     public:

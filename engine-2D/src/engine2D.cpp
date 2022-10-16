@@ -23,7 +23,7 @@ namespace physics
         m_integ.reserve_state(4 * allocations);
     }
 
-    void engine2D::add(std::size_t amount)
+    void engine2D::add(const std::size_t amount)
     {
         DBG_LOG_IF(amount < 1, "Adding 0 entities...\n")
         for (std::size_t i = 0; i < amount; i++)
@@ -41,7 +41,7 @@ namespace physics
         m_entities[m_entities.size() - 1].m_buffer = {&m_buffer, m_buffer.size() - 4};
     }
 
-    void engine2D::add(const entity2D &entity, std::size_t amount)
+    void engine2D::add(const entity2D &entity, const std::size_t amount)
     {
         DBG_LOG_IF(amount < 1, "Adding 0 entities...\n")
         for (std::size_t i = 0; i < amount; i++)
