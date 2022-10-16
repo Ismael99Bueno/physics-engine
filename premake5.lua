@@ -7,6 +7,8 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 include "vector"
 include "runge-kutta"
+include "vec-ptr"
+include "engine-2D"
 include "playground"
 
 newaction {
