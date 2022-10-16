@@ -2,6 +2,7 @@
 #define ENTITY2D_HPP
 
 #include "body2D.hpp"
+#include "vec_ptr.hpp"
 
 namespace physics
 {
@@ -19,7 +20,7 @@ namespace physics
 
     private:
         body2D m_body;
-        mutable double *m_buffer = nullptr;
+        mutable utils::vec_ptr m_buffer = nullptr;
         friend class engine2D;
     };
 }

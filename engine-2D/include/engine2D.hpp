@@ -16,7 +16,9 @@ namespace physics
                  double dt = 0.001,
                  std::uint32_t allocations = 1000);
 
+        void add(std::size_t amount = 1);
         void add(const entity2D &entity);
+        void add(const entity2D &entity, std::size_t amount);
         void add(const std::vector<entity2D> &entities);
 
         bool raw_forward();
