@@ -20,7 +20,7 @@ namespace physics
 
     private:
         body2D m_body;
-        mutable utils::vec_ptr m_buffer = nullptr;
+        mutable utils::vec_ptr m_buffer;
         friend class engine2D;
     };
 }
