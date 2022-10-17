@@ -3,9 +3,11 @@
 
 namespace vec
 {
-    vec2::vec2(float x, float y) : x(x), y(y) {}
+    vec2::vec2(const float x, const float y) : x(x), y(y) {}
 
     vec2::vec2(const vec3 &v3) : x(v3.x), y(v3.y) {}
+
+    vec2::vec2(const sf::Vector2f &v2) : x(v2.x), y(v2.y) {}
 
     float vec2::dot(const vec2 &v) const { return this->x * v.x + this->y * v.y; }
 
@@ -33,6 +35,10 @@ namespace vec
     float vec2::angle() const { return atan2(this->y, this->x); }
 
     float vec2::angle(const vec2 &v) const { return acos(dot(v) / (norm() * v.norm())); }
+
+    vec2::operator vec3() const { return vec3(x, y); }
+
+    vec2::operator sf::Vector2f() const { return sf::Vector2f(x, y); }
 
     vec2 operator+(const vec2 &v) { return v; }
 

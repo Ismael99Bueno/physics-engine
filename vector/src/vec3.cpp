@@ -3,7 +3,9 @@
 
 namespace vec
 {
-    vec3::vec3(float x, float y, float z) : x(x), y(y), z(z) {}
+    vec3::vec3(const float x, const float y, const float z) : x(x), y(y), z(z) {}
+
+    vec3::vec3(const float x, const float y) : x(x), y(y), z(0.f) {}
 
     vec3::vec3(const vec2 &v2) : x(v2.x), y(v2.y), z(0.f) {}
 
@@ -61,6 +63,10 @@ namespace vec
     }
 
     float vec3::angle(const vec3 &v) const { return acos(dot(v) / (norm() * v.norm())); }
+
+    vec3::operator vec2() const { return vec2(x, y); }
+
+    vec3::operator sf::Vector3f() const { return sf::Vector3f(x, y, z); }
 
     vec3 operator+(const vec3 &v) { return v; }
 

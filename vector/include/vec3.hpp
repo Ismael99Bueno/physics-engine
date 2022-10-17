@@ -3,6 +3,7 @@
 
 #include "vec2.hpp"
 #include <iostream>
+#include <SFML/System/Vector3.hpp>
 
 namespace vec
 {
@@ -14,7 +15,9 @@ namespace vec
 
         vec3() = default;
         vec3(float x, float y, float z);
+        vec3(float x, float y);
         vec3(const vec2 &v2);
+        vec3(const sf::Vector3f &v3);
 
         float dot(const vec3 &v) const;
 
@@ -43,6 +46,9 @@ namespace vec
         float angle(const vec3 &v) const;
 
         vec3 cross(const vec3 &v) const;
+
+        operator vec2() const;
+        operator sf::Vector3f() const;
     };
 
     vec3 operator+(const vec3 &v);
