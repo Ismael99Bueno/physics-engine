@@ -1,8 +1,6 @@
 #include <iostream>
-#include "integrator.hpp"
 #include "prefab.hpp"
 #include "engine2D.hpp"
-#include "vec_ptr.hpp"
 #include "force2D.hpp"
 #include "interaction2D.hpp"
 #include <cmath>
