@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 
-#define WIDTH 1280.0
-#define HEIGHT 720.0
+#define WIDTH 1280.f
+#define HEIGHT 720.f
 
 int main()
 {

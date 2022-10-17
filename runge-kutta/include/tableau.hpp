@@ -9,8 +9,8 @@ namespace rk
     class tableau
     {
     private:
-        using vector = std::vector<double>;
-        using matrix = std::vector<std::vector<double>>;
+        using vector = std::vector<float>;
+        using matrix = std::vector<std::vector<float>>;
         using uint8 = std::uint8_t;
 
     public:

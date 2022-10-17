@@ -2,9 +2,9 @@
 
 namespace physics
 {
-    std::vector<double> ode(const double t, const std::vector<double> &state, const engine2D &eng)
+    std::vector<float> ode(const float t, const std::vector<float> &state, const engine2D &eng)
     {
-        std::vector<double> result(state.size(), 0.0);
+        std::vector<float> result(state.size(), 0.f);
         for (std::size_t i = 0; i < eng.m_entities.size(); i++)
         {
             const entity2D &entity1 = eng.m_entities[i];

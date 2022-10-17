@@ -7,7 +7,7 @@
 namespace physics
 {
     vec2 apply_force(const entity2D &entity, const force2D &force);
-    std::vector<double> ode(const double t, const std::vector<double> &state, const engine2D &eng);
+    std::vector<float> ode(const float t, const std::vector<float> &state, const engine2D &eng);
 }
 
 #endif

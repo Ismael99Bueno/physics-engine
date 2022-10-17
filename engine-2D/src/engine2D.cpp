@@ -5,7 +5,7 @@
 namespace physics
 {
     engine2D::engine2D(const rk::tableau &tableau,
-                       const double dt,
+                       const float dt,
                        const std::uint32_t allocations) : m_integ(tableau, m_buffer), m_dt(dt)
     {
         m_entities.reserve(allocations);
@@ -45,11 +45,11 @@ namespace physics
         return m_integ.embedded_forward(m_t, m_dt, *this, ode);
     }
 
-    void engine2D::until(double time_threshold, bool (engine2D::*forward)())
+    void engine2D::until(float time_threshold, bool (engine2D::*forward)())
     {
         while (m_t < time_threshold)
             (this->*forward)();
     }
 
-    double engine2D::elapsed() const { return m_t; }
+    float engine2D::elapsed() const { return m_t; }
 }

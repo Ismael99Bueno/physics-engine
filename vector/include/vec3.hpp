@@ -10,37 +10,37 @@ namespace vec
     class vec3
     {
     public:
-        double x = 0.0, y = 0.0, z = 0.0;
+        float x = 0.f, y = 0.f, z = 0.f;
 
         vec3() = default;
-        vec3(double x, double y, double z);
+        vec3(float x, float y, float z);
         vec3(const vec2 &v2);
 
-        double dot(const vec3 &v) const;
+        float dot(const vec3 &v) const;
 
-        double sq_dist(const vec3 &v) const;
-        double dist(const vec3 &v) const;
+        float sq_dist(const vec3 &v) const;
+        float dist(const vec3 &v) const;
 
-        double sq_norm() const;
-        double norm() const;
+        float sq_norm() const;
+        float norm() const;
 
         void normalize();
         vec3 normalized() const;
 
-        void xrotate(double angle);
-        vec3 xrotated(double angle) const;
+        void xrotate(float angle);
+        vec3 xrotated(float angle) const;
 
-        void yrotate(double angle);
-        vec3 yrotated(double angle) const;
+        void yrotate(float angle);
+        vec3 yrotated(float angle) const;
 
-        void zrotate(double angle);
-        vec3 zrotated(double angle) const;
+        void zrotate(float angle);
+        vec3 zrotated(float angle) const;
 
-        void rotate(double angle, const vec3 &axis);
-        vec3 rotated(double angle, const vec3 &axis) const;
+        void rotate(float angle, const vec3 &axis);
+        vec3 rotated(float angle, const vec3 &axis) const;
 
-        double angle() const;
-        double angle(const vec3 &v) const;
+        float angle() const;
+        float angle(const vec3 &v) const;
 
         vec3 cross(const vec3 &v) const;
     };
@@ -53,41 +53,41 @@ namespace vec
 
     vec3 operator-(const vec3 &lhs, const vec3 &rhs);
 
-    vec3 operator+(const vec3 &lhs, double rhs);
+    vec3 operator+(const vec3 &lhs, float rhs);
 
-    vec3 operator-(const vec3 &lhs, double rhs);
+    vec3 operator-(const vec3 &lhs, float rhs);
 
-    vec3 operator+(double lhs, const vec3 &rhs);
+    vec3 operator+(float lhs, const vec3 &rhs);
 
-    vec3 operator-(double lhs, const vec3 &rhs);
+    vec3 operator-(float lhs, const vec3 &rhs);
 
     vec3 operator+=(vec3 &lhs, const vec3 &rhs);
 
     vec3 operator-=(vec3 &lhs, const vec3 &rhs);
 
-    vec3 operator+=(vec3 &lhs, double rhs);
+    vec3 operator+=(vec3 &lhs, float rhs);
 
-    vec3 operator-=(vec3 &lhs, double rhs);
+    vec3 operator-=(vec3 &lhs, float rhs);
 
     vec3 operator*(const vec3 &lhs, const vec3 &rhs);
 
     vec3 operator/(const vec3 &lhs, const vec3 &rhs);
 
-    vec3 operator*(const vec3 &lhs, double rhs);
+    vec3 operator*(const vec3 &lhs, float rhs);
 
-    vec3 operator/(const vec3 &lhs, double rhs);
+    vec3 operator/(const vec3 &lhs, float rhs);
 
-    vec3 operator*(double lhs, const vec3 &rhs);
+    vec3 operator*(float lhs, const vec3 &rhs);
 
-    vec3 operator/(double lhs, const vec3 &rhs);
+    vec3 operator/(float lhs, const vec3 &rhs);
 
     vec3 operator*=(vec3 &lhs, const vec3 &rhs);
 
     vec3 operator/=(vec3 &lhs, const vec3 &rhs);
 
-    vec3 operator*=(vec3 &lhs, double rhs);
+    vec3 operator*=(vec3 &lhs, float rhs);
 
-    vec3 operator/=(vec3 &lhs, double rhs);
+    vec3 operator/=(vec3 &lhs, float rhs);
 
     bool operator==(const vec3 &lhs, const vec3 &rhs);
 

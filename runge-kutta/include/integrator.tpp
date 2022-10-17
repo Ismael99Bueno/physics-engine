@@ -2,17 +2,17 @@
 #include "debug.h"
 #include <cmath>
 
-#define SAFETY_FACTOR 0.85
-#define TOL_PART 256.0
+#define SAFETY_FACTOR 0.85f
+#define TOL_PART 256.f
 
 namespace rk
 {
     template <typename T>
-    void integrator::update_kvec(const double t,
-                                 const double dt,
+    void integrator::update_kvec(const float t,
+                                 const float dt,
                                  const vector &state,
                                  const T &params,
-                                 vector (*ode)(double, const vector &, const T &)) const
+                                 vector (*ode)(float, const vector &, const T &)) const
     {
         DBG_EXIT_IF(state.size() != m_kvec[0].size(), "State and k-vectors size mismatch!\n")
         vector aux_state(state.size());
@@ -22,7 +22,7 @@ namespace rk
         {
             for (std::size_t j = 0; j < state.size(); j++)
             {
-                double k_sum = 0.0;
+                float k_sum = 0.f;
                 for (uint8 k = 0; k < i; k++)
                     k_sum += m_tableau.beta()[i - 1][k] * m_kvec[k][j];
                 aux_state[j] = state[j] + k_sum * dt;
@@ -32,10 +32,10 @@ namespace rk
     }
 
     template <typename T>
-    bool integrator::raw_forward(double &t,
-                                 const double dt,
+    bool integrator::raw_forward(float &t,
+                                 const float dt,
                                  const T &params,
-                                 vector (*ode)(double, const vector &, const T &))
+                                 vector (*ode)(float, const vector &, const T &))
     {
         DBG_EXIT_IF(dt_off_bounds(dt), "Timestep is not between established limits. Change the timestep or adjust the limits to include the current value.\n")
         m_valid = true;
@@ -46,10 +46,10 @@ namespace rk
     }
 
     template <typename T>
-    bool integrator::reiterative_forward(double &t,
-                                         double &dt,
+    bool integrator::reiterative_forward(float &t,
+                                         float &dt,
                                          const T &params,
-                                         vector (*ode)(double, const vector &, const T &),
+                                         vector (*ode)(float, const vector &, const T &),
                                          const uint8 reiterations)
     {
         DBG_EXIT_IF(reiterations < 2, "The amount of reiterations has to be greater than 1, otherwise the algorithm will break.\n")
@@ -73,19 +73,19 @@ namespace rk
                 m_state = sol1;
                 break;
             }
-            dt *= SAFETY_FACTOR * std::pow(m_tolerance / m_error, 1.0 / (m_tableau.order() + 1U));
+            dt *= SAFETY_FACTOR * std::pow(m_tolerance / m_error, 1.f / (m_tableau.order() + 1U));
         }
         m_error = std::max(m_error, m_tolerance / TOL_PART);
         t += dt;
-        dt = std::clamp(SAFETY_FACTOR * dt * std::pow(m_tolerance / m_error, 1.0 / m_tableau.order()), m_min_dt, m_max_dt);
+        dt = std::clamp(SAFETY_FACTOR * dt * std::pow(m_tolerance / m_error, 1.f / m_tableau.order()), m_min_dt, m_max_dt);
         return m_valid;
     }
 
     template <typename T>
-    bool integrator::embedded_forward(double &t,
-                                      double &dt,
+    bool integrator::embedded_forward(float &t,
+                                      float &dt,
                                       const T &params,
-                                      vector (*ode)(double, const vector &, const T &))
+                                      vector (*ode)(float, const vector &, const T &))
     {
         DBG_EXIT_IF(!m_tableau.embedded(), "Cannot perform embedded adaptive stepsize without an embedded solution.\n")
         DBG_EXIT_IF(dt_off_bounds(dt), "Timestep is not between established limits. Change the timestep or adjust the limits to include the current value.\n")
@@ -102,11 +102,11 @@ namespace rk
                 m_state = sol1;
                 break;
             }
-            dt *= SAFETY_FACTOR * pow(m_tolerance / m_error, 1.0 / m_tableau.order());
+            dt *= SAFETY_FACTOR * pow(m_tolerance / m_error, 1.f / m_tableau.order());
         }
         m_error = std::max(m_error, m_tolerance / TOL_PART);
         t += dt;
-        dt = std::clamp(SAFETY_FACTOR * dt * std::pow(m_tolerance / m_error, 1.0 / (m_tableau.order() - 1)), m_min_dt, m_max_dt);
+        dt = std::clamp(SAFETY_FACTOR * dt * std::pow(m_tolerance / m_error, 1.f / (m_tableau.order() - 1)), m_min_dt, m_max_dt);
         return m_valid;
     }
 }

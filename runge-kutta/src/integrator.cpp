@@ -2,22 +2,19 @@
 #include "debug.h"
 #include <cmath>
 
-#define SAFETY_FACTOR 0.85
-#define TOL_PART 256.0
-
 namespace rk
 {
     integrator::integrator(const tableau &tb,
                            vector &state,
-                           const double tolerance,
-                           const double min_dt,
-                           const double max_dt) : m_tableau(tb),
-                                                  m_state(state),
-                                                  m_tolerance(tolerance),
-                                                  m_min_dt(min_dt),
-                                                  m_max_dt(max_dt),
-                                                  m_error(0.0),
-                                                  m_valid(true) { resize_kvec(); }
+                           const float tolerance,
+                           const float min_dt,
+                           const float max_dt) : m_tableau(tb),
+                                                 m_state(state),
+                                                 m_tolerance(tolerance),
+                                                 m_min_dt(min_dt),
+                                                 m_max_dt(max_dt),
+                                                 m_error(0.f),
+                                                 m_valid(true) { resize_kvec(); }
 
     void integrator::resize_kvec() const
     {
@@ -26,7 +23,7 @@ namespace rk
             v.resize(m_state.size());
     }
 
-    integrator::vector integrator::generate_solution(const double dt,
+    integrator::vector integrator::generate_solution(const float dt,
                                                      const vector &state,
                                                      const vector &coefs)
     {
@@ -34,7 +31,7 @@ namespace rk
         sol.reserve(state.size());
         for (std::size_t j = 0; j < state.size(); j++)
         {
-            double sum = 0.0;
+            float sum = 0.f;
             for (uint8 i = 0; i < m_tableau.stage(); i++)
                 sum += coefs[i] * m_kvec[i][j];
             m_valid &= !isnan(sum);
@@ -60,19 +57,19 @@ namespace rk
         return result;
     }
 
-    bool integrator::dt_too_small(const double dt) const { return dt < m_min_dt; }
-    bool integrator::dt_too_big(const double dt) const { return dt > m_max_dt; }
-    bool integrator::dt_off_bounds(const double dt) const { return dt_too_small(dt) || dt_too_big(dt); }
+    bool integrator::dt_too_small(const float dt) const { return dt < m_min_dt; }
+    bool integrator::dt_too_big(const float dt) const { return dt > m_max_dt; }
+    bool integrator::dt_off_bounds(const float dt) const { return dt_too_small(dt) || dt_too_big(dt); }
 
-    double integrator::embedded_error(const vector &sol1, const vector &sol2)
+    float integrator::embedded_error(const vector &sol1, const vector &sol2)
     {
-        double result = 0.0;
+        float result = 0.f;
         for (std::size_t i = 0; i < sol1.size(); i++)
             result += (sol1[i] - sol2[i]) * (sol1[i] - sol2[i]);
         return result;
     }
 
-    double integrator::reiterative_error(const vector &sol1, const vector &sol2) const
+    float integrator::reiterative_error(const vector &sol1, const vector &sol2) const
     {
         const uint32 coeff = ipow(2, m_tableau.order()) - 1;
         return embedded_error(sol1, sol2) / coeff;
@@ -91,12 +88,12 @@ namespace rk
         resize_kvec();
     }
 
-    double integrator::tolerance() const { return m_tolerance; }
-    double integrator::min_dt() const { return m_min_dt; }
-    double integrator::max_dt() const { return m_max_dt; }
-    double integrator::error() const { return m_error; }
+    float integrator::tolerance() const { return m_tolerance; }
+    float integrator::min_dt() const { return m_min_dt; }
+    float integrator::max_dt() const { return m_max_dt; }
+    float integrator::error() const { return m_error; }
 
-    void integrator::tolerance(const double val) { m_tolerance = val; }
-    void integrator::min_dt(const double val) { m_min_dt = val; }
-    void integrator::max_dt(const double val) { m_max_dt = val; }
+    void integrator::tolerance(const float val) { m_tolerance = val; }
+    void integrator::min_dt(const float val) { m_min_dt = val; }
+    void integrator::max_dt(const float val) { m_max_dt = val; }
 }

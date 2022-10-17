@@ -13,7 +13,7 @@ class gravity : public force2D
 {
     vec2 acceleration(const body2D &body) const override
     {
-        return vec2(0.0, -1.0);
+        return vec2(0.f, -1.f);
     }
 };
 
@@ -27,10 +27,10 @@ class gravitation : public interaction2D
 
 int main()
 {
-    engine2D eng(rk::rkf45, 0.01);
+    engine2D eng(rk::rkf45, .1f);
     entity2D &e1 = eng.add(), &e2 = eng.add();
-    e1.body().pos({1.0, 0.0});
-    e1.body().vel({0.0, -1.2});
+    e1.body().pos({1.f, 0.f});
+    e1.body().vel({0.f, -1.2f});
     e1.dispatch();
     // e2.dynamic(false);
 
@@ -41,7 +41,7 @@ int main()
     eng.add(grav);
 
     std::size_t iters = 0;
-    while (eng.elapsed() < 50.0)
+    while (eng.elapsed() < 50.f)
     {
         eng.embedded_forward();
         e1.retrieve();

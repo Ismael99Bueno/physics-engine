@@ -16,7 +16,7 @@ namespace physics
     public:
         engine2D() = delete;
         engine2D(const rk::tableau &tableau,
-                 double dt = 0.001,
+                 float dt = .01f,
                  std::uint32_t allocations = 1000);
 
         entity2D &add(const entity2D &&entity = entity2D()); // CHECK DEFAULT!! Maybe it does not initialize to zero
@@ -26,21 +26,21 @@ namespace physics
         bool raw_forward();
         bool reiterative_forward();
         bool embedded_forward();
-        void until(double time_threshold, bool (engine2D::*forward)());
+        void until(float time_threshold, bool (engine2D::*forward)());
 
-        double elapsed() const;
+        float elapsed() const;
 
     private:
         std::vector<entity2D> m_entities;
-        std::vector<double> m_buffer;
+        std::vector<float> m_buffer;
 
         std::unordered_set<const force2D *> m_forces;
         std::unordered_set<const interaction2D *> m_interactions;
 
         rk::integrator m_integ;
-        double m_dt, m_t = 0.0;
+        float m_dt, m_t = 0.f;
 
-        friend std::vector<double> ode(double t, const std::vector<double> &state, const engine2D &eng);
+        friend std::vector<float> ode(float t, const std::vector<float> &state, const engine2D &eng);
     };
 }
 
