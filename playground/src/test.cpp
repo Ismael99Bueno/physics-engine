@@ -45,7 +45,7 @@ int main()
     {
         eng.embedded_forward();
         e1.retrieve();
-        std::cout << e1.body().pos() << " " << e1.body().vel() << "\n";
+        std::cout << e1.body().pos() << " " << e1.body().vel() << " error: " << eng.integrator().error() << "\n";
         iters++;
     }
     std::cout << "Iters: " << iters << "\n";

@@ -52,4 +52,5 @@ namespace physics
     }
 
     float engine2D::elapsed() const { return m_t; }
+    const rk::integrator &engine2D::integrator() const { return m_integ; }
 }

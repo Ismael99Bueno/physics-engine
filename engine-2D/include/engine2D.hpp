@@ -29,6 +29,7 @@ namespace physics
         void until(float time_threshold, bool (engine2D::*forward)());
 
         float elapsed() const;
+        const rk::integrator &integrator() const;
 
     private:
         std::vector<entity2D> m_entities;
