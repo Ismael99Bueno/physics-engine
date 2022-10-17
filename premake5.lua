@@ -1,7 +1,7 @@
 workspace "physics-engine"
     architecture "arm64"
     configurations {"Debug", "Release", "Test"}
-    startproject "app"
+    startproject "app-2D"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
@@ -9,7 +9,7 @@ include "vector"
 include "runge-kutta"
 include "vec-ptr"
 include "engine-2D"
-include "app"
+include "app-2D"
 
 newaction {
     trigger = "clean",
