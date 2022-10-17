@@ -23,6 +23,8 @@ namespace physics
         void add(const force2D &force);
         void add(const interaction2D &inter);
 
+        void retrieve();
+
         bool raw_forward();
         bool reiterative_forward();
         bool embedded_forward();

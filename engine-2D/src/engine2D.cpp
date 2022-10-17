@@ -27,6 +27,12 @@ namespace physics
     void engine2D::add(const force2D &force) { m_forces.insert(&force); }
     void engine2D::add(const interaction2D &inter) { m_interactions.insert(&inter); }
 
+    void engine2D::retrieve()
+    {
+        for (entity2D &e : m_entities)
+            e.retrieve();
+    }
+
     bool engine2D::raw_forward()
     {
         DBG_EXIT_IF(m_entities.empty(), "No entities to integrate!\n")
