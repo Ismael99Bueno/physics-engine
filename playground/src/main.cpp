@@ -13,7 +13,7 @@ class gravitation : public interaction2D
 {
     vec2 acceleration(const body2D &b1, const body2D &b2) const override
     {
-        return (b2.pos() - b1.pos()).normalized() * (b2.mass() / b1.pos().sq_dist(b2.pos()));
+        return 100.f * (b2.pos() - b1.pos()).normalized() * (b2.mass() / b1.pos().sq_dist(b2.pos()));
     }
 };
 
@@ -25,8 +25,9 @@ int main()
     engine2D eng(rk::rk4);
     entity2D &e1 = eng.add(), &e2 = eng.add();
     e1.body().pos({100.f, 0.f});
-    e1.body().vel({0.f, -10.f});
+    e1.body().vel({0.f, -2.f});
     e1.dispatch();
+    e1.dynamic(false);
 
     gravitation grav;
     grav.add(e1);
@@ -50,6 +51,11 @@ int main()
         }
 
         window.clear();
+        eng.raw_forward();
+        e1.retrieve();
+        e2.retrieve();
+        c1.setPosition(e1.body().pos());
+        c2.setPosition(e2.body().pos());
         window.draw(c1);
         window.draw(c2);
         window.display();
