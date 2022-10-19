@@ -12,7 +12,7 @@ namespace physics
         entity2D() = default;
         entity2D(const body2D &body);
 
-        void retrieve();
+        virtual void retrieve();
         void dispatch() const;
 
         body2D &body();
@@ -21,9 +21,11 @@ namespace physics
         bool dynamic() const;
         void dynamic(bool dynamic);
 
-    private:
+    protected:
         body2D m_body;
         mutable utils::vec_ptr m_buffer;
+
+    private:
         bool m_dynamic = true;
 
         friend class engine2D;
