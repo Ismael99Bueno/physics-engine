@@ -12,6 +12,17 @@ namespace physics
         m_max = pos + m_dim / 2.f;
     }
 
+    bool bbox2D::overlaps(const bbox2D &bbox) const
+    {
+        vec::vec2 df1 = bbox.m_min - m_min;
+        vec::vec2 df2 = bbox.m_max - m_max;
+        if (df1.x > 0.f || df1.y > 0.f)
+            return false;
+        if (df2.x > 0.f || df2.y > 0.f)
+            return false;
+        return true;
+    }
+
     const vec::vec2 &bbox2D::min() const { return m_min; }
     const vec::vec2 &bbox2D::max() const { return m_max; }
 }

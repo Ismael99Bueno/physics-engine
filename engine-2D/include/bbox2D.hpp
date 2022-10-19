@@ -10,9 +10,11 @@ namespace physics
     {
     public:
         bbox2D() = delete;
-        bbox2D(const vec::vec2 &width, const utils::vec_ptr &buffer);
+        bbox2D(const vec::vec2 &size, const utils::vec_ptr &buffer);
 
         void retrieve();
+        bool overlaps(const bbox2D &bbox) const;
+
         const vec::vec2 &min() const;
         const vec::vec2 &max() const;
 
